@@ -10851,7 +10851,8 @@ var _class = function (_Phaser$State) {
       //
       // load your assets
       //
-      this.load.image('mushroom', 'assets/images/mushroom2.png');
+      game.load.image('starfield', 'assets/images/starfield.jpg');
+      this.load.image('smoke', 'assets/images/smokecolors.png');
       this.load.spritesheet('gems', 'assets/images/gems2.png', 128, 128, 16);
     }
   }, {
@@ -11018,6 +11019,7 @@ var _class = function (_Phaser$State) {
   }, {
     key: 'create',
     value: function create() {
+      this.bg = game.add.tileSprite(0, 0, 800, 600, 'starfield');
       this.GC = new _GameController2.default();
       this.GC.create();
       //this.createTestText();
@@ -11151,8 +11153,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  gameWidth: 512,
-  gameHeight: 768,
+  gameWidth: 800,
+  gameHeight: 600,
   localStorageName: 'threeinrow'
 };
 
@@ -11250,18 +11252,22 @@ var _Gem = __webpack_require__(/*! ./Gem */ 347);
 
 var _Gem2 = _interopRequireDefault(_Gem);
 
-var _TrakingUserActions = __webpack_require__(/*! ./TrakingUserActions */ 349);
+var _UserActions = __webpack_require__(/*! ../UserActions */ 352);
 
-var _TrakingUserActions2 = _interopRequireDefault(_TrakingUserActions);
+var _UserActions2 = _interopRequireDefault(_UserActions);
+
+var _processArrayGem = __webpack_require__(/*! ./processArrayGem */ 353);
+
+var _tryProceess = __webpack_require__(/*! ./tryProceess */ 355);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var FIELDCOL = 7;
-var FIELDROW = 10;
+var FIELDCOL = 6;
+var FIELDROW = 7;
 var GEMSIZE = 64;
-var GEMTYPE = 5;
+var GEMTYPE = 7;
 
 var GemsController = function () {
     function GemsController() {
@@ -11306,10 +11312,18 @@ var GemsController = function () {
         value: function create() {
             this.createLevel();
             // game.input.onDown.add(this.gemSelect.bind(this));
-            this.traker = new _TrakingUserActions2.default();
+            this.traker = new _UserActions2.default();
             this.signalToTraker.add(this.traker.onActionWithGem, this.traker);
             this.traker.signalToGemController.add(this.onSignalFromTraker, this);
         }
+
+        /**
+         * создание уровня
+         */
+        // todo при создании уровня надо сразу создвать все камни или
+        // todo досоздавть, после этого ставим на поле
+        // todo камни должны создавться только по необходимости
+
     }, {
         key: 'createLevel',
         value: function createLevel() {
@@ -11322,6 +11336,7 @@ var GemsController = function () {
                     this.removeMap[row].push(0);
                 }
             }
+
             this.gemGroup = game.add.group();
             for (row = 0; row < FIELDROW; row++) {
                 this.gemArray[row] = [];
@@ -11346,11 +11361,19 @@ var GemsController = function () {
                     } while (this.isMatch(row, col));
                 }
             }
-            //this.selectedGem = null;
-            //hand = game.add.sprite(0, 0, "hand");
-            //hand.anchor.set(0.5);
-            //.visible = false;
+            _processArrayGem.processArray.init(GEMTYPE, FIELDROW, FIELDCOL);
+            _processArrayGem.processArray.createArrayNumberFromGemArray(this.gemArray);
         }
+
+        /**
+         * получает сигнал от UserAction и отправляет его
+         * к камню, камень имеет два состояния которые меняются
+         * при поступленнии этого сигнала
+         * В ответ от камня приходит оповещения в каком он состоянии
+         * @param row
+         * @param col
+         */
+
     }, {
         key: 'onDown',
         value: function onDown(row, col) {
@@ -11362,6 +11385,8 @@ var GemsController = function () {
 
         /**
          * handeler signal from gem
+         * метод для осуществления вызова методоов при
+         * сигнале от камня
          * @param {string} action
          * @param {Gem} gem
          */
@@ -11372,6 +11397,15 @@ var GemsController = function () {
             //console.log('GC: gem ' + action);
             this[action](gem);
         }
+
+        /**
+        * handeler signal from gem
+        * метод для осуществления вызова методоов при
+        * сигнале от тракера (UserAction)
+        * @param {string} action
+        * @param {Gem} gem
+        */
+
     }, {
         key: 'onSignalFromTraker',
         value: function onSignalFromTraker(action, row, col) {
@@ -11380,6 +11414,7 @@ var GemsController = function () {
 
         /**
          * sets selectedGem
+         * вызывается при сигнале от камня select
          * @param {gem} gem
          */
 
@@ -11414,7 +11449,8 @@ var GemsController = function () {
         }
 
         /**
-         *
+         * если складываются условия для обмена
+         * оповещаем тракер. оповещаем камни
          * @param {Gem} gems1
          * @param {Gem} gems2
          */
@@ -11438,6 +11474,14 @@ var GemsController = function () {
             this.gemArray[gem1Row][gem1Col] = objGem2InArray;
             this.gemArray[gem2Row][gem2Col] = objGem1InArray;
         }
+
+        /**
+         * при направильном обмене
+         * возвращаем камни назад
+         * @param gem1
+         * @param gem2
+         */
+
     }, {
         key: 'swapBack',
         value: function swapBack(gem1, gem2) {
@@ -11472,6 +11516,7 @@ var GemsController = function () {
             if (!this.swapEndGem) {
                 this.swapEndGem = gem;
             } else if (this.matchInBoard()) {
+                // todo функцию местой проверки сделать
                 this.swapEndGem = null;
                 this.handleFields();
             } else {
@@ -11479,18 +11524,58 @@ var GemsController = function () {
                 this.swapEndGem = null;
             }
         }
+
+        // todo вообще часть элементов расставит остальные приткнуть на свободные места
+
     }, {
-        key: 'matchInBoard',
-        value: function matchInBoard() {
-            for (var row = 0; row < FIELDROW; row++) {
-                for (var col = 0; col < FIELDCOL; col++) {
-                    if (this.isMatch(row, col)) {
-                        return true;
-                    }
+        key: 'vortex',
+        value: function vortex() {
+            this.signalToTraker.dispatch('doVortex');
+            var tempArray = [];
+            var randomRow = void 0;
+            var randomCol = void 0;
+            var next = false;
+            var row = void 0,
+                col = void 0;
+            for (row = 0; row < FIELDROW; row++) {
+                tempArray[row] = [];
+                for (col = 0; col < FIELDCOL; col++) {
+                    tempArray[row].push(0);
                 }
             }
-            return false;
+            for (row = 0; row < FIELDROW; row++) {
+                for (col = 0; col < FIELDCOL; col++) {
+                    do {
+                        randomRow = game.rnd.between(0, FIELDROW - 1);
+                        randomCol = game.rnd.between(0, FIELDCOL - 1);
+                        if (!tempArray[randomRow][randomCol]) {
+                            tempArray[randomRow][randomCol] = this.gemArray[row][col];
+                            next = true;
+                        }
+                    } while (!next);
+                    next = false;
+                    tempArray[randomRow][randomCol].signalToGem.dispatch('doVortex', randomRow, randomCol);
+                }
+            }
+            tempArray[randomRow][randomCol].signalToGem.dispatch('responseVortexTweenComplete');
+            this.gemArray = tempArray;
         }
+    }, {
+        key: 'vortexTweenComplete',
+        value: function vortexTweenComplete() {
+            this.afterChangeOnField();
+            // process.createArrayNumberFromGemArray(this.gemArray);
+            // if(process.isMatches()){
+            //     this.handleFields();
+            // }else{
+            //     this.signalToTraker.dispatch('endVortex');
+            // }
+        }
+
+        /**
+         * агрегатор
+         */
+
     }, {
         key: 'handleFields',
         value: function handleFields() {
@@ -11501,6 +11586,7 @@ var GemsController = function () {
 
         /**
          * Находим горизонтальные линии
+         * и заполение массива removeMap
          */
 
     }, {
@@ -11539,7 +11625,8 @@ var GemsController = function () {
         }
 
         /**
-         * находим вертикальные линии
+         * Находим вертикальные линии
+         * и заполение массива removeMap
          */
 
     }, {
@@ -11611,13 +11698,24 @@ var GemsController = function () {
                 lastGem.signalToGem.dispatch('responseRemoveTweenComplete');
             }
         }
+
+        /**
+         * сигнал от последнег камня об окнчании анимации удаления
+         */
+
     }, {
         key: 'removeTweenComplete',
         value: function removeTweenComplete() {
-            // console.log('removeTweenComplete');
-            // console.table(this.gemArray);
             this.gemsFall();
         }
+
+        /**
+         * не совсем коректное название, так как метод назодит
+         * дырки и элемент который должен заполнить его.
+         * Так же если его нет на поле он берется из хранилища камней
+         * только после этого камням раздается сигнал на падение
+         */
+
     }, {
         key: 'gemsFall',
         value: function gemsFall() {
@@ -11638,17 +11736,13 @@ var GemsController = function () {
                             gem.gemColor = randomColor;
                             this.gemArray[row][col] = gem;
                         } else {
-
                             while (this.gemArray[tmpRow][col] == 0 && tmpRow > 0) {
-                                //console.log('gemsFall', tmpRow, col);
                                 tmpRow--;
                             }
 
                             if (this.gemArray[tmpRow][col]) {
                                 this.gemArray[row][col] = this.gemArray[tmpRow][col];
                                 this.gemArray[tmpRow][col] = 0;
-                                // теперь уже не пустой
-                                //tmpArrayForFallGem.push(curGem);
                             } else {
                                 var _gem = this.storageGems.pop();
                                 var _randomColor = game.rnd.between(0, GEMTYPE - 1);
@@ -11656,7 +11750,6 @@ var GemsController = function () {
                                 _gem.gemSprite.setPosition(-1, col);
                                 _gem.gemColor = _randomColor;
                                 this.gemArray[row][col] = _gem;
-                                //tmpArrayForFallGem.push(curGem);
                             }
                         }
                         this.gemArray[row][col].signalToGem.dispatch('fall', row, col);
@@ -11666,18 +11759,96 @@ var GemsController = function () {
             }
             lastGem.signalToGem.dispatch('responseFallTweenComplete');
         }
+
+        /**
+         * действие по окнчанию падения
+         * вызывается проверка на совпадение
+         * и если нет сигнал трекеру включить выбор камней
+         */
+
     }, {
         key: 'fallTweenComplete',
         value: function fallTweenComplete() {
-            if (this.matchInBoard()) {
+            this.afterChangeOnField();
+        }
+
+        /**
+         * вызывается после окончния анимации после смены позиций камней
+         */
+
+    }, {
+        key: 'afterChangeOnField',
+        value: function afterChangeOnField() {
+            _processArrayGem.processArray.createArrayNumberFromGemArray(this.gemArray);
+            if (_processArrayGem.processArray.isMatches()) {
                 this.handleFields();
+            } else if (!_processArrayGem.processArray.findAllPotentialMatches()) {
+                this.vortex();
             } else {
                 this.signalToTraker.dispatch('enableSelection');
             }
         }
+
+        /**
+         * запуск бинарного сравнения
+         */
+
     }, {
-        key: 'fireTip',
-        value: function fireTip() {}
+        key: 'fireBinaryMatch',
+        value: function fireBinaryMatch() {
+            _processArrayGem.processArray.createArrayNumberFromGemArray(this.gemArray);
+            var res = _processArrayGem.processArray.findAllPotentialMatches(this.gemArray);
+            return res;
+        }
+
+        /**
+         * показать подсказки
+         * todo в процессе разработки
+         * @returns {boolean}
+         */
+
+    }, {
+        key: 'showTip',
+        value: function showTip() {
+            var count = this.fireBinaryMatch();
+            var randomNumber = game.rnd.between(0, count - 1);
+            var result = _processArrayGem.processArray.extractGemsForTip(this.gemArray, randomNumber);
+            var last = 0;
+            //let result = process.findPotentialHorizontalMatches(this.gemArray);
+            if (result) {
+                while (result.length) {
+                    last = result.pop();
+                    last.signalToGem.dispatch('showTip');
+                }
+            }
+            last.signalToGem.dispatch('responseShowTipTweenComplete');
+        }
+    }, {
+        key: 'showTipTweenComplete',
+        value: function showTipTweenComplete() {
+            this.signalToTraker.dispatch('endTip');
+        }
+
+        /**
+         * сравнение совпадений на доске
+         * todo скорее всего больше не нужен будет замене на более быстрый бинарный метод
+         * todo но находит существующие совпадение а не потенциальны, мой конечно будет быстрее, но
+         * todo может хрен с ним.
+         * @returns {boolean}
+         */
+
+    }, {
+        key: 'matchInBoard',
+        value: function matchInBoard() {
+            for (var row = 0; row < FIELDROW; row++) {
+                for (var col = 0; col < FIELDCOL; col++) {
+                    if (this.isMatch(row, col)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
         //если есть совпадения по горизонтали или вертикали то true
 
@@ -11725,11 +11896,6 @@ var GemsController = function () {
         key: 'standsNext',
         value: function standsNext(gem1, gem2) {
             return Math.abs(gem1.getRow() - gem2.getRow()) + Math.abs(gem1.getColumn() - gem2.getColumn()) == 1;
-        }
-    }, {
-        key: 'checkGem',
-        value: function checkGem(currentGem, selectedGem) {
-            return Math.abs();
         }
     }]);
 
@@ -11803,12 +11969,24 @@ var Gem = function (_Phaser$Sprite) {
         _this.strState[3] = 'swapBack';
         _this.strState[4] = 'unselect';
 
+        /**
+         * показ рамки при выборе элемента
+         */
         _this._focus = new _phaser2.default.Sprite(game, 0, 0, 'gems', 9);
-        //this._focus.anchor.set(0.5);
         _this.addChild(_this._focus);
         _this._focus.visible = false;
+
+        /**
+         * сигнал к GemController
+         * @type {Phaser.Signal}
+         */
         _this.signalToGemController = new _phaser2.default.Signal();
 
+        /**
+         * координаты камня строка колонка
+         * @type {{row: *, col: *}}
+         * @private
+         */
         _this._position = {
             row: row,
             col: col
@@ -11817,6 +11995,15 @@ var Gem = function (_Phaser$Sprite) {
     }
 
     _createClass(Gem, [{
+        key: 'create',
+        value: function create() {}
+
+        /**
+         * при выборе элемента по сигналу от контроллера onDown
+         * через смену состяний
+         */
+
+    }, {
         key: 'select',
         value: function select() {
             this._state = this._state + STEP;
@@ -11825,6 +12012,11 @@ var Gem = function (_Phaser$Sprite) {
             this._focus.visible = true;
             this.signalToGemController.dispatch('select', this);
         }
+
+        /**
+         * при выборе элемента по сигналу от контроллера onDown
+         */
+
     }, {
         key: 'unselect',
         value: function unselect() {
@@ -11835,6 +12027,15 @@ var Gem = function (_Phaser$Sprite) {
     }, {
         key: 'toInitial',
         value: function toInitial() {}
+
+        /**
+         * вызывается на все сигналы от котроллера
+         * signalToGem.add(gem.onSignal, gem);
+         * @param {string} action this action must be run
+         * @param row
+         * @param col
+         */
+
     }, {
         key: 'onSignal',
         value: function onSignal(action, row, col) {
@@ -11856,17 +12057,41 @@ var Gem = function (_Phaser$Sprite) {
             this._state = this._state & INITIALSTATE;
             this._focus.visible = false;
         }
+
+        /**
+         * fire animation swap of gem and set new position
+         * @param row
+         * @param col
+         */
+
     }, {
         key: 'swap',
         value: function swap(row, col) {
             this._state = this._state + 1;
             this._focus.visible = false;
             this.tween = game.add.tween(this).to({ x: col * GEMSIZE, y: row * GEMSIZE }, 250, _phaser2.default.Easing.Linear.None, true);
-            this.tween.onComplete.addOnce(this.onTweenComplete, this);
+            this.tween.onComplete.addOnce(this.onSwapTweenComplete, this);
             this.setRow(row);
             this.setColumn(col);
             this._state = this._state & INITIALSTATE;
         }
+
+        /**
+         * сигнал контроллеру по завершения обмена
+         */
+
+    }, {
+        key: 'onSwapTweenComplete',
+        value: function onSwapTweenComplete() {
+            this.signalToGemController.dispatch('swapEnd', this);
+        }
+
+        /**
+         * swap back
+         * @param row
+         * @param col
+         */
+
     }, {
         key: 'swapBack',
         value: function swapBack(row, col) {
@@ -11874,14 +12099,44 @@ var Gem = function (_Phaser$Sprite) {
             this.setRow(row);
             this.setColumn(col);
         }
+
+        /**
+         * animation after remove the gem
+         */
+
     }, {
         key: 'remove',
         value: function remove() {
-            this.tween = game.add.tween(this).to({ alpha: 0 }, Gl.SPEEDGEMREMOVEBYALPHA, _phaser2.default.Easing.Linear.None, true);
+            this.tween = game.add.tween(this).to({ alpha: 0 }, Gl.tuneRemove.duration, _phaser2.default.Easing.Linear.None, true);
             this.visible = false;
-            //this.setRow(-1);
-            //this.setColumn(0);
         }
+
+        /**
+         * ответ подписывается только последний из камней
+         */
+
+    }, {
+        key: 'responseRemoveTweenComplete',
+        value: function responseRemoveTweenComplete() {
+            this.tween.onComplete.addOnce(this.onRemoveTweenComplete, this);
+        }
+
+        /**
+         * сигнал контроллеру по завершения удаления
+         */
+
+    }, {
+        key: 'onRemoveTweenComplete',
+        value: function onRemoveTweenComplete() {
+            this.signalToGemController.dispatch('removeTweenComplete');
+        }
+
+        /**
+         * animation in duration fall the gem
+         * @param row
+         * @param col
+         */
+
     }, {
         key: 'fall',
         value: function fall(row, col) {
@@ -11890,38 +12145,66 @@ var Gem = function (_Phaser$Sprite) {
             this.alpha = 1;
             this.visible = true;
             this.setPosition(row, col);
-            this.tween = game.add.tween(this).to({ x: col * GEMSIZE, y: row * GEMSIZE }, 250, _phaser2.default.Easing.Linear.None, true);
+            this.tween = game.add.tween(this).to({ x: col * GEMSIZE, y: row * GEMSIZE }, Gl.tuneFall.duration, _phaser2.default.Easing.Linear.None, true);
         }
-    }, {
-        key: 'setPosition',
-        value: function setPosition(row, col) {
-            this.setRow(row);
-            this.setColumn(col);
-        }
-    }, {
-        key: 'responseRemoveTweenComplete',
-        value: function responseRemoveTweenComplete() {
-            this.tween.onComplete.addOnce(this.onRemoveTweenComplete, this);
-        }
+
+        /**
+         * ответ подписывается только последний из камней
+         */
+
     }, {
         key: 'responseFallTweenComplete',
         value: function responseFallTweenComplete() {
             this.tween.onComplete.addOnce(this.onFallTweenComplete, this);
         }
-    }, {
-        key: 'onTweenComplete',
-        value: function onTweenComplete() {
-            this.signalToGemController.dispatch('swapEnd', this);
-        }
-    }, {
-        key: 'onRemoveTweenComplete',
-        value: function onRemoveTweenComplete() {
-            this.signalToGemController.dispatch('removeTweenComplete');
-        }
+
+        /**
+         * сигнал контроллеру по завершения падения
+         */
+
     }, {
         key: 'onFallTweenComplete',
         value: function onFallTweenComplete() {
             this.signalToGemController.dispatch('fallTweenComplete');
+        }
+
+        /**
+         * show animation - quake for tip
+         */
+
+    }, {
+        key: 'showTip',
+        value: function showTip() {
+            var prop = { x: this.x + 5 };
+            this.tween = game.add.tween(this).to(prop, Gl.tuneTip.duration, _phaser2.default.Easing.Bounce.InOut, true, 0, Gl.tuneTip.repeat, true);
+        }
+    }, {
+        key: 'responseShowTipTweenComplete',
+        value: function responseShowTipTweenComplete() {
+            this.tween.onComplete.addOnce(this.onShowTipTweenComplete, this);
+        }
+    }, {
+        key: 'onShowTipTweenComplete',
+        value: function onShowTipTweenComplete() {
+            this.signalToGemController.dispatch('showTipTweenComplete');
+        }
+    }, {
+        key: 'doVortex',
+        value: function doVortex(row, col) {
+            var delay = game.rnd.between(0, 200);
+            this.tween = game.add.tween(this).to({ x: [220, col * GEMSIZE], y: [220, row * GEMSIZE] }, 1500, _phaser2.default.Easing.Linear.In, true, delay, 0);
+            game.add.tween(this).to({ angle: 720 }, 2000, _phaser2.default.Easing.Cubic.InOut, true, 0, 0);
+            this.setPosition(row, col);
+        }
+    }, {
+        key: 'responseVortexTweenComplete',
+        value: function responseVortexTweenComplete() {
+            this.tween.onComplete.addOnce(this.onVortexTweenComplete, this);
+        }
+    }, {
+        key: 'onVortexTweenComplete',
+        value: function onVortexTweenComplete() {
+            this.signalToGemController.dispatch('vortexTweenComplete');
         }
     }, {
         key: 'getRow',
@@ -11943,6 +12226,12 @@ var Gem = function (_Phaser$Sprite) {
         value: function setColumn(col) {
             this._position.col = col;
         }
+    }, {
+        key: 'setPosition',
+        value: function setPosition(row, col) {
+            this.setRow(row);
+            this.setColumn(col);
+        }
     }]);
 
     return Gem;
@@ -11952,151 +12241,7 @@ exports.default = Gem;
 
 /***/ }),
 /* 348 */,
-/* 349 */
-/*!*********************************************!*\
-  !*** ./src/game/gems/TrakingUserActions.js ***!
-  \*********************************************/
-/*! dynamic exports provided */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by ss on 30.11.2017.
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
-
-
-var _phaser = __webpack_require__(/*! phaser */ 42);
-
-var _phaser2 = _interopRequireDefault(_phaser);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var GEMSIZE = 64;
-
-var TrakingUserAction = function () {
-    function TrakingUserAction(row, col) {
-        _classCallCheck(this, TrakingUserAction);
-
-        this.curPosition = {};
-        this.nextPosition = {
-            column: 0,
-            row: 0
-        };
-
-        /**
-         * во время обработки  и анимации запретить выбор камней
-         * @type {number}
-         */
-        this.allowSelection = 1;
-
-        /**
-         * время бездействия пользователя
-         * @type {number}
-         */
-        this.timerId;
-
-        this.state = 1;
-        this.strState = [];
-        //множитель для оценки приоритета пути
-        //this.multiplier = 0;
-        this.intermediateFunction = 'wait';
-
-        this.strState[0] = 'wait';
-        this.strState[1] = 'select';
-        this.strState[2] = 'waitNext';
-        this.strState[5] = 'success';
-        this.strState[6] = 'fail';
-
-        this.signalToGemController = new _phaser2.default.Signal();
-        game.input.onDown.add(this.onDown.bind(this));
-        game.input.onUp.add(this.onUp.bind(this));
-
-        this.setTimerTip();
-    }
-
-    _createClass(TrakingUserAction, [{
-        key: 'onDown',
-        value: function onDown(event) {
-            if (this.allowSelection) {
-                var row = Math.floor(event.clientY / GEMSIZE);
-                var col = Math.floor(event.clientX / GEMSIZE);
-                this.signalToGemController.dispatch('onDown', row, col);
-            }
-        }
-    }, {
-        key: 'enableSelection',
-        value: function enableSelection() {
-            this.allowSelection = 1;
-            this.setTimerTip();
-        }
-    }, {
-        key: 'disableSelection',
-        value: function disableSelection() {
-            this.allowSelection = 0;
-            this.resetTimerTip();
-        }
-    }, {
-        key: 'onUp',
-        value: function onUp() {}
-    }, {
-        key: 'setTimerTip',
-        value: function setTimerTip() {
-            this.timerId = setTimeout(5000, this.fireTip.bind(this));
-        }
-    }, {
-        key: 'fireTip',
-        value: function fireTip() {
-            this.signalToGemController.dispatch('fireTip');
-            this.setTimerTip();
-        }
-    }, {
-        key: 'resetTimerTip',
-        value: function resetTimerTip() {
-            clearTimeout(this.timerId);
-        }
-
-        /**
-         *
-         * @param {object} position
-         */
-
-    }, {
-        key: 'onActionWithGem',
-        value: function onActionWithGem(action, position) {
-            this[action]();
-        }
-    }, {
-        key: 'onSelectGem',
-        value: function onSelectGem() {
-            game.input.addMoveCallback(this.waitNext.bind(this));
-            game.input.onUp.add(this.onUp.bind(this));
-        }
-    }, {
-        key: 'onUnselectGem',
-        value: function onUnselectGem() {
-            game.input.deleteMoveCallback(this.waitNext);
-            console.log('monitor: unselect gem');
-        }
-    }, {
-        key: 'waitNext',
-        value: function waitNext() {}
-    }]);
-
-    return TrakingUserAction;
-}();
-
-exports.default = TrakingUserAction;
-
-/***/ }),
+/* 349 */,
 /* 350 */
 /*!*************************!*\
   !*** ./src/settings.js ***!
@@ -12117,15 +12262,852 @@ exports.default = Global;
  */
 
 function Global() {
+    var tuneTip = {
+        // подсказки
+        //сдвиг px
+        offset: 5,
+        // длительность дрожания
+        duration: 100,
+        // повторы
+        repeat: 4
+    };
+    var tuneFall = {
+        //падение
+        duration: 250
+    };
+    var tuneRemove = {
+        // пропадение блоков
+        duration: 250
+    };
+
     return {
         SELECT: 1,
         UNSELECT: 0,
         INITIALSTATE: 0,
         CHANGEPOSITION: 1,
         STEP: 1,
-        SPEEDGEMREMOVEBYALPHA: 250
+        SPEEDGEMREMOVEBYALPHA: 250,
+        tuneTip: tuneTip,
+        tuneFall: tuneFall,
+        tuneRemove: tuneRemove
     };
 }
+
+/***/ }),
+/* 351 */,
+/* 352 */
+/*!*********************************!*\
+  !*** ./src/game/UserActions.js ***!
+  \*********************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * Created by ss on 30.11.2017.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
+
+
+var _phaser = __webpack_require__(/*! phaser */ 42);
+
+var _phaser2 = _interopRequireDefault(_phaser);
+
+var _utils = __webpack_require__(/*! ../utils */ 65);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var GEMSIZE = 64;
+
+var UserAction = function () {
+    function UserAction(row, col) {
+        _classCallCheck(this, UserAction);
+
+        this.curPosition = {};
+        this.nextPosition = {
+            column: 0,
+            row: 0
+        };
+
+        /**
+         * во время обработки  и анимации запретить выбор камней
+         * @type {number}
+         */
+        this.allow = 1;
+
+        /**
+         * время бездействия пользователя
+         * @type {number}
+         */
+        this.timerId;
+
+        this.state = 1;
+
+        this.strState = [];
+        //множитель для оценки приоритета пути
+        //this.multiplier = 0;
+        this.intermediateFunction = 'wait';
+
+        this.strState[0] = 'wait';
+        this.strState[1] = 'select';
+        this.strState[2] = 'waitNext';
+        this.strState[5] = 'success';
+        this.strState[6] = 'fail';
+
+        this.signalToGemController = new _phaser2.default.Signal();
+        game.input.onDown.add(this.onDown.bind(this));
+        game.input.onUp.add(this.onUp.bind(this));
+
+        (0, _utils.addMenuOption)(game.world.width - 100, 250, 'вихрь', this.onVortex.bind(this));
+
+        this.allowAction();
+    }
+
+    /**
+     * при действии  пользоватедя
+     * @param event
+     */
+
+
+    _createClass(UserAction, [{
+        key: 'onDown',
+        value: function onDown(event) {
+            if (this.allow) {
+                var row = Math.floor(event.clientY / GEMSIZE);
+                var col = Math.floor(event.clientX / GEMSIZE);
+                this.signalToGemController.dispatch('onDown', row, col);
+            }
+        }
+
+        /**
+         * разрешить выбор запустить подсказку
+         */
+
+    }, {
+        key: 'enableSelection',
+        value: function enableSelection() {
+            this.allowAction();
+        }
+
+        /**
+         * запретить выбор сбросить таймер посказки
+         */
+
+    }, {
+        key: 'disableSelection',
+        value: function disableSelection() {
+            this.notAllowAction();
+        }
+
+        // todo нужен при протягивнии, пока этот функционал на работает
+
+    }, {
+        key: 'onUp',
+        value: function onUp() {}
+    }, {
+        key: 'allowAction',
+        value: function allowAction() {
+            this.allow = 1;
+            this.setTimerTip();
+        }
+    }, {
+        key: 'notAllowAction',
+        value: function notAllowAction() {
+            this.allow = 0;
+            this.resetTimerTip();
+        }
+    }, {
+        key: 'setTimerTip',
+        value: function setTimerTip() {
+            this.timerId = setTimeout(this.showTip.bind(this), 6000);
+        }
+    }, {
+        key: 'resetTimerTip',
+        value: function resetTimerTip() {
+            clearTimeout(this.timerId);
+        }
+    }, {
+        key: 'showTip',
+        value: function showTip() {
+            if (this.allow) {
+                this.notAllowAction();
+                this.signalToGemController.dispatch('showTip');
+            }
+        }
+    }, {
+        key: 'endTip',
+        value: function endTip() {
+            if (!this.allow) {
+                this.allowAction();
+            }
+        }
+    }, {
+        key: 'onVortex',
+        value: function onVortex() {
+            if (this.allow) {
+                this.signalToGemController.dispatch('vortex');
+            }
+        }
+    }, {
+        key: 'doVortex',
+        value: function doVortex() {
+            this.notAllowAction();
+        }
+
+        // возможно уже не нужно
+
+    }, {
+        key: 'endVortex',
+        value: function endVortex() {
+            if (!this.allow) {
+                this.allowAction();
+            }
+        }
+
+        /**
+         *
+         * @param {object} position
+         */
+
+    }, {
+        key: 'onActionWithGem',
+        value: function onActionWithGem(action, position) {
+            this[action]();
+        }
+
+        // todo нужен при протягивнии, пока этот функционал на работает
+
+    }, {
+        key: 'onSelectGem',
+        value: function onSelectGem() {}
+        //game.input.addMoveCallback(this.waitNext.bind(this));
+        //game.input.onUp.add(this.onUp.bind(this));
+
+        // todo нужен при протягивнии, пока этот функционал на работает
+
+    }, {
+        key: 'onUnselectGem',
+        value: function onUnselectGem() {
+            // game.input.deleteMoveCallback(this.waitNext);
+            // console.log('monitor: unselect gem');
+        }
+    }]);
+
+    return UserAction;
+}();
+// this.button = game.add.button(
+//     game.world.width - 100, 250,
+//     'gems',
+//     this.actionOnClick,
+//     this,
+//     11, 15, 11
+// );
+// this.button.scale.setTo(0.5);
+
+
+exports.default = UserAction;
+
+/***/ }),
+/* 353 */
+/*!******************************************!*\
+  !*** ./src/game/gems/processArrayGem.js ***!
+  \******************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * Created by ss on 04.12.2017.
+ */
+
+var processArray = {
+    gemType: 0,
+    commonArray: [],
+    numberArray: [],
+    potentialMatch: [],
+    fieldRow: 0,
+    fieldCol: 0,
+    horizontal3: 32,
+    horizontal4: 64,
+    vertical3: 128,
+    vertical4: 256,
+
+    init: function init(gemType, fieldRow, fieldCol) {
+        this.gemType = gemType;
+        this.fieldRow = fieldRow;
+        this.fieldCol = fieldCol;
+    },
+    /**
+     * создание числовых массивов из массива камней
+     * Подготовка для поиска потенциальных переходов
+     * @param gemArray
+     */
+    createArrayNumberFromGemArray: function createArrayNumberFromGemArray(gemsArray) {
+
+        var numberArray = [];
+        var numberColumn = [];
+        var number = 0;
+
+        var color = 0;
+        var row = 0;
+        var col = 0;
+
+        for (color = 0; color < this.gemType; color++) {
+            for (col = 0; col < this.fieldCol; col++) {
+                numberColumn[col] = 0;
+            }
+            numberArray[color] = [];
+            for (row = this.fieldRow - 1; row >= 0; row--) {
+                number = 0;
+                for (col = this.fieldCol - 1; col >= 0; col--) {
+                    if (gemsArray[row][col].gemColor == color) {
+                        number = number + (1 << col);
+                        numberColumn[col] = numberColumn[col] + (1 << row);
+                    }
+                }
+                numberArray[color][row] = number;
+            }
+            numberArray[color] = numberArray[color].concat(numberColumn);
+        }
+        this.numberArray = numberArray;
+    },
+
+    /**
+     * нахождние возмжных правильных переходов
+     * основано на двоичных числах и масках
+     * числа хранятся подряд снасала строки потом колоники
+     * первые ячейки массива являются младшими битами
+     * соответственно первые ячейки колонок явл младшими битами
+     * @param {boolean} find matches for tip or check field on match for
+     * @return {boolen}
+     */
+    findAllPotentialMatches: function findAllPotentialMatches(gemsArray) {
+
+        var count = 0;
+        /**
+         * набор битовых массивов для сравнений
+         * @type {Array}
+         */
+        var numArray = this.numberArray;
+
+        /**
+         * массив потенциальных совпадений
+         * @type {Array}
+         */
+        var potentialMatch = [];
+
+        var len = this.gemType;
+        var fieldRow = this.fieldRow;
+        var fieldCol = this.fieldCol;
+
+        var MASK3 = 7;
+        var MASK2_1 = 11;
+        var MASK1_2 = 13;
+
+        var mask3 = 0;
+        var mask2_1 = 0;
+        var mask1_2 = 0;
+
+        var checkLine = void 0;
+        var color = 0;
+        var row = 0;
+        var shift = 0;
+        var tempAr = [];
+        for (color = 0; color < len; color++) {
+            var ar = numArray[color];
+            // console.log('row');
+            //проверка строк
+            for (row = 0; row < fieldRow; row++) {
+                checkLine = row < fieldRow - 1 ? ar[row] | ar[row + 1] : 0;
+                for (shift = 0; shift < fieldCol - 2; shift++) {
+                    mask3 = MASK3 << shift;
+                    mask2_1 = MASK2_1 << shift;
+                    mask1_2 = MASK1_2 << shift;
+
+                    if ((checkLine & mask3) == mask3) {
+                        count++;
+                        potentialMatch.push([row, shift, this.horizontal3, color]);
+                        //console.dir([row, shift, this.horizontal3, color]);
+                    }
+                    if ((ar[row] & mask1_2) == mask1_2) {
+                        count++;
+                        potentialMatch.push([row, shift, this.horizontal4, color]);
+                        // console.dir([row, shift, this.horizontal4, color]);
+                    }
+                    if ((ar[row] & mask2_1) == mask2_1) {
+                        count++;
+                        potentialMatch.push([row, shift, this.horizontal4, color]);
+                        //console.dir([row, shift, this.horizontal4, color]);
+                    }
+                }
+            }
+            //прооверка колонок так как они идут ниже то
+            //для получения колонок нужно отнять строки
+            // console.log('col');
+            var commonRow = fieldRow + fieldCol;
+            for (row = fieldRow; row < commonRow; row++) {
+                checkLine = row < commonRow - 1 ? ar[row] | ar[row + 1] : 0;
+
+                for (shift = 0; shift < fieldRow - 2; shift++) {
+                    mask3 = MASK3 << shift;
+                    mask2_1 = MASK2_1 << shift;
+                    mask1_2 = MASK1_2 << shift;
+
+                    if ((checkLine & mask3) == mask3) {
+                        count++;
+                        potentialMatch.push([shift, row - fieldRow, this.vertical3, color]);
+                        //console.dir([shift, row - fieldRow, this.vertical3, color]);
+                    }
+                    if ((ar[row] & mask1_2) == mask1_2) {
+                        count++;
+                        potentialMatch.push([shift, row - fieldRow, this.vertical4, color]);
+                        // console.dir([shift, row - fieldRow, this.vertical4, color]);
+                    }
+                    if ((ar[row] & mask2_1) == mask2_1) {
+                        count++;
+                        potentialMatch.push([shift, row - fieldRow, this.vertical4, color]);
+                        //console.dir([shift, row - fieldRow, this.vertical4, color]);
+                    }
+                }
+            }
+        }
+        //console.log('find matches', count);
+        this.potentialMatch = potentialMatch;
+        return count;
+    },
+
+    /**
+     * extract random gems for tip
+     * @param randomNumber
+     * @returns {Array}
+     */
+
+    extractGemsForTip: function extractGemsForTip(gemsArray, randomNumber) {
+
+        var ar = this.potentialMatch[randomNumber];
+        var row = ar[0];
+        var col = ar[1];
+        var code = ar[2];
+        var color = ar[3];
+        var partRow = 0;
+        var partCol = 0;
+
+        var gemsForTip = [];
+
+        switch (code) {
+            case this.horizontal3:
+                partCol = col + 3;
+                for (col; col < partCol; col++) {
+                    if (gemsArray[row][col].gemColor == color) {
+                        gemsForTip.push(gemsArray[row][col]);
+                    } else if (gemsArray[row + 1][col].gemColor == color) {
+                        gemsForTip.push(gemsArray[row + 1][col]);
+                    }
+                }
+                break;
+            case this.vertical3:
+                partRow = row + 3;
+                for (row; row < partRow; row++) {
+                    if (gemsArray[row][col].gemColor == color) {
+                        gemsForTip.push(gemsArray[row][col]);
+                    } else if (gemsArray[row][col + 1].gemColor == color) {
+                        gemsForTip.push(gemsArray[row][col + 1]);
+                    }
+                }
+                break;
+            case this.horizontal4:
+                partCol = col + 4;
+                for (col; col < partCol; col++) {
+                    if (gemsArray[row][col].gemColor == color) {
+                        gemsForTip.push(gemsArray[row][col]);
+                    }
+                }
+                break;
+            case this.vertical4:
+                partRow = row + 4;
+                for (row; row < partRow; row++) {
+                    if (gemsArray[row][col].gemColor == color) {
+                        gemsForTip.push(gemsArray[row][col]);
+                    }
+                }
+                break;
+
+        }
+        return gemsForTip;
+    },
+
+
+    /**
+     * find while no match
+     * необходимо держать массив this.numberArray в актуальном состоянии
+     * @returns {boolean}
+     */
+    isMatches: function isMatches() {
+        "use strict";
+
+        var numArray = this.numberArray;
+        var len = numArray.length;
+
+        var MASK3 = 7;
+        var mask3 = 0;
+        var color = 0;
+
+        for (color = 0; color < len; color++) {
+            var ar = numArray[color];
+            var row = 0;
+            var shift = 0;
+            //проверка строк
+            for (row = 0; row < this.fieldRow; row++) {
+                for (shift = 0; shift < this.fieldCol - 2; shift++) {
+                    mask3 = MASK3 << shift;
+                    if ((ar[row] & mask3) == mask3) {
+                        return true;
+                    }
+                }
+            }
+            //прооверка колонок
+            var commonRow = this.fieldRow + this.fieldCol;
+            var col = 0;
+            for (col = this.fieldRow; col < commonRow; col++) {
+                for (shift = 0; shift < this.fieldRow - 2; shift++) {
+                    mask3 = MASK3 << shift;
+                    if ((ar[col] & mask3) == mask3) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+};
+exports.processArray = processArray;
+
+/***/ }),
+/* 354 */,
+/* 355 */
+/*!**************************************!*\
+  !*** ./src/game/gems/tryProceess.js ***!
+  \**************************************/
+/*! dynamic exports provided */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * Created by ss on 01.12.2017.
+ */
+
+var newProcess = {
+
+    /**
+     * функция для создания бинарных массивов по цветам
+      * @param gemArray
+     */
+    createColorArrays: function createColorArrays(gemArray) {
+        var color = 0;
+        var row = 0;
+        var col = 0;
+        var fieldRow = 0;
+        var fieldCol = 0;
+        fieldRow = gemArray.length;
+        fieldCol = gemArray[0];
+        console.time('mark');
+        for (color = 0; color < this.gemType; color++) {
+            this.commonArray[color] = [];
+            for (row = 0; row < fieldRow; row++) {
+                this.commonArray[color][row] = [];
+                for (col = 0; col < fieldCol; col++) {
+                    if (gemArray[row][col].gemColor == color) {
+                        this.commonArray[color][row][col] = 1;
+                    } else {
+                        this.commonArray[color][row][col] = 0;
+                    }
+                }
+            }
+        }
+        console.timeEnd('mark');
+        console.table(this.commonArray);
+    }
+
+};
+var other = {
+    findPotentialVertcalMatches: function findPotentialVertcalMatches(gemArray) {
+        var FIELDCOL = gemArray[0].length;
+        var FIELDROW = gemArray.length;
+        var row = 0;
+        var col = 0;
+        var tipArray = [];
+        var potentialLine = 0;
+        var curColor = void 0;
+
+        for (row = 0; row < FIELDROW - 2; row++) {
+            for (col = 0; col < FIELDCOL; col++) {
+                potentialLine = col;
+                curColor = gemArray[row][col].gemColor;
+                if (gemArray[row - 1][col + 1].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor) {
+                    tipArray.push(gemArray[row][col]);
+                    tipArray.push(gemArray[row - 1][col + 1]);
+                    tipArray.push(gemArray[row][col + 2]);
+                    return tipArray;
+                } else {
+                    gemArray[row + 1][col + 1].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor;
+                }{
+                    tipArray.push(gemArray[row][col]);
+                    tipArray.push(gemArray[row - 1][col + 1]);
+                    tipArray.push(gemArray[row][col + 2]);
+                    return tipArray;
+                }
+            }
+        }
+        return false;
+    },
+
+    findPotentialHorizontalMatches: function findPotentialHorizontalMatches(gemArray) {
+        console.time('mark');
+        var FIELDCOL = gemArray[0].length;
+        var FIELDROW = gemArray.length;
+        var row = 0;
+        var col = 0;
+        var tipArray = [];
+        var potentialLine = 0;
+        var curColor = void 0;
+        var count = 0;
+
+        // первая строка сравнение елочкой 2^1
+        for (col = 0; col < FIELDCOL - 2; col++) {
+            curColor = gemArray[row][col].gemColor;
+            if (gemArray[row + 1][col + 1].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor) {
+                // tipArray.push(gemArray[row][col]);
+                // tipArray.push(gemArray[row + 1][col+1]);
+                // tipArray.push(gemArray[row][col+2]);
+                //return  tipArray;
+                count++;
+            }
+            if (gemArray[row][col + 1].gemColor == curColor && gemArray[row + 1][col + 2].gemColor == curColor) {
+                // tipArray.push(gemArray[row][col]);
+                // tipArray.push(gemArray[row + 1][col+1]);
+                // tipArray.push(gemArray[row][col+2]);
+                //return  tipArray;
+                count++;
+            }
+            if (gemArray[row + 1][col + 1].gemColor == curColor && gemArray[row + 1][col + 2].gemColor == curColor) {
+                // tipArray.push(gemArray[row][col]);
+                // tipArray.push(gemArray[row + 1][col+1]);
+                // tipArray.push(gemArray[row][col+2]);
+                //return  tipArray;
+                count++;
+            }
+        }
+        // первая строка сравнение 2_ 1
+        for (col = 0; col < FIELDCOL - 3; col++) {
+            curColor = gemArray[row][col].gemColor;
+            if (gemArray[row][col].gemColor == curColor && gemArray[row][col + 1].gemColor == curColor && gemArray[row][col + 3].gemColor == curColor) {
+                count++;
+            }
+            if (gemArray[row][col].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor && gemArray[row][col + 3].gemColor == curColor) {
+                count++;
+            }
+        }
+
+        // последняя строка сравнение 1_1_1 и 2_1
+        row = FIELDROW - 1;
+        for (col = 0; col < FIELDCOL - 2; col++) {
+            curColor = gemArray[row][col].gemColor;
+            if (gemArray[row - 1][col + 1].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor) {
+                // tipArray.push(gemArray[row][col]);
+                // tipArray.push(gemArray[row -1][col+1]);
+                // tipArray.push(gemArray[row][col+2]);
+                //return  tipArray;
+                count++;
+            }
+            if (gemArray[row][col + 1].gemColor == curColor && gemArray[row - 1][col + 2].gemColor == curColor) {
+                // tipArray.push(gemArray[row][col]);
+                // tipArray.push(gemArray[row + 1][col+1]);
+                // tipArray.push(gemArray[row][col+2]);
+                //return  tipArray;
+                count++;
+            }
+            if (gemArray[row - 1][col + 1].gemColor == curColor && gemArray[row - 1][col + 2].gemColor == curColor) {
+                // tipArray.push(gemArray[row][col]);
+                // tipArray.push(gemArray[row + 1][col+1]);
+                // tipArray.push(gemArray[row][col+2]);
+                //return  tipArray;
+                count++;
+            }
+        }
+        // последняя строка сравнение 2 _ 1
+        for (col = 0; col < FIELDCOL - 3; col++) {
+            curColor = gemArray[row][col].gemColor;
+            if (gemArray[row][col].gemColor == curColor && gemArray[row][col + 1].gemColor == curColor && gemArray[row][col + 3].gemColor == curColor) {
+                count++;
+            }
+            if (gemArray[row][col].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor && gemArray[row][col + 3].gemColor == curColor) {
+                count++;
+            }
+        }
+
+        // посередине
+        for (row = 1; row < FIELDROW - 1; row++) {
+            for (col = 0; col < FIELDCOL - 2; col++) {
+                //potentialLine = col;
+                curColor = gemArray[row][col].gemColor;
+                if (gemArray[row - 1][col + 1].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor) {
+                    // tipArray.push(gemArray[row][col]);
+                    // tipArray.push(gemArray[row -1][col+1]);
+                    // tipArray.push(gemArray[row][col+2]);
+                    // return  tipArray;
+                    count++;
+                }
+                if (gemArray[row + 1][col + 1].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor) {
+                    // tipArray.push(gemArray[row][col]);
+                    // tipArray.push(gemArray[row + 1][col+1]);
+                    // tipArray.push(gemArray[row][col+2]);
+                    // return  tipArray;
+                    count++;
+                }
+                if (gemArray[row][col + 1].gemColor == curColor && gemArray[row - 1][col + 2].gemColor == curColor) {
+                    // tipArray.push(gemArray[row][col]);
+                    // tipArray.push(gemArray[row + 1][col+1]);
+                    // tipArray.push(gemArray[row][col+2]);
+                    //return  tipArray;
+                    count++;
+                }
+                if (gemArray[row + 1][col + 1].gemColor == curColor && gemArray[row + 1][col + 2].gemColor == curColor) {
+                    // tipArray.push(gemArray[row][col]);
+                    // tipArray.push(gemArray[row + 1][col+1]);
+                    // tipArray.push(gemArray[row][col+2]);
+                    //return  tipArray;
+                    count++;
+                }
+                if (gemArray[row - 1][col + 1].gemColor == curColor && gemArray[row - 1][col + 2].gemColor == curColor) {
+                    // tipArray.push(gemArray[row][col]);
+                    // tipArray.push(gemArray[row + 1][col+1]);
+                    // tipArray.push(gemArray[row][col+2]);
+                    //return  tipArray;
+                    count++;
+                }
+                if (gemArray[row][col + 1].gemColor == curColor && gemArray[row + 1][col + 2].gemColor == curColor) {
+                    // tipArray.push(gemArray[row][col]);
+                    // tipArray.push(gemArray[row + 1][col+1]);
+                    // tipArray.push(gemArray[row][col+2]);
+                    //return  tipArray;
+                    count++;
+                }
+            }
+        }
+
+        for (row = 1; row < FIELDROW - 1; row++) {
+            for (col = 0; col < FIELDCOL - 3; col++) {
+                //potentialLine = col;
+                curColor = gemArray[row][col].gemColor;
+
+                if (gemArray[row][col].gemColor == curColor && gemArray[row][col + 1].gemColor == curColor && gemArray[row][col + 3].gemColor == curColor) {
+                    count++;
+                }
+                if (gemArray[row][col].gemColor == curColor && gemArray[row][col + 2].gemColor == curColor && gemArray[row][col + 3].gemColor == curColor) {
+                    count++;
+                }
+            }
+        }
+        console.timeEnd('mark');
+        console.log('my classic Matches:', count);
+
+        return false;
+    },
+
+    /**
+     * блок кода скачанный с интернета и приготовленный для проверки
+     * производительности
+     */
+    fieldRow: null,
+    fieldCol: null,
+    gemArray: null,
+
+    showSuggestion: function showSuggestion(gemArray) {
+        console.time('mark');
+        var matchFound = 0;
+        this.fieldRow = gemArray.length;
+        this.fieldCol = gemArray[0].length;
+        this.gemArray = gemArray;
+        for (var i = 0; i < this.fieldRow - 1; i++) {
+            for (var j = 0; j < this.fieldCol - 1; j++) {
+
+                this.tmpSwap(i, j, i + 1, j);
+                if (this.matchInBoard()) {
+                    matchFound++;
+                }
+                this.tmpSwap(i, j, i + 1, j);
+                this.tmpSwap(i, j, i, j + 1);
+                if (this.matchInBoard()) {
+                    matchFound++;
+                }
+                this.tmpSwap(i, j, i, j + 1);
+            }
+        }
+        console.timeEnd('mark');
+        console.log("outside match", matchFound);
+    },
+
+    matchInBoard: function matchInBoard() {
+        for (var i = 0; i < this.fieldRow; i++) {
+            for (var j = 0; j < this.fieldCol; j++) {
+                if (this.isMatch(i, j)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    },
+    isMatch: function isMatch(row, col) {
+        //return this.isHorizontalMatch(row, col) || this.isVerticalMatch(row, col);
+        var v = this.gemArray[row][col].gemColor == this.gemAt(row, col - 1).gemColor && this.gemArray[row][col].gemColor == this.gemAt(row, col - 2).gemColor;
+        var h = this.gemArray[row][col].gemColor == this.gemAt(row - 1, col).gemColor && this.gemArray[row][col].gemColor == this.gemAt(row - 2, col).gemColor;
+        return v || h;
+    },
+    isHorizontalMatch: function isHorizontalMatch(row, col) {
+        return this.gemArray[row][col].gemColor == this.gemAt(row, col - 1).gemColor && this.gemArray[row][col].gemColor == this.gemAt(row, col - 2).gemColor;
+    },
+
+    isVerticalMatch: function isVerticalMatch(row, col) {
+        return this.gemArray[row][col].gemColor == this.gemAt(row - 1, col).gemColor && this.gemArray[row][col].gemColor == this.gemAt(row - 2, col).gemColor;
+    },
+
+    tmpSwap: function tmpSwap(row1, col1, row2, col2) {
+
+        var tmp = this.gemArray[row1][col1];
+        this.gemArray[row1][col1] = this.gemArray[row2][col2];
+        this.gemArray[row2][col2] = tmp;
+    },
+
+    gemAt: function gemAt(row, col) {
+        if (row < 0 || row >= this.fieldRow || col < 0 || col >= this.fieldCol) {
+            return -1;
+        }
+        return this.gemArray[row][col];
+    }
+};
+
+exports.newProcess = newProcess;
 
 /***/ })
 ],[129]);
