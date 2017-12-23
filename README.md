@@ -14,6 +14,7 @@
 1 = есть доска
 
 ищет по адресу https://budashon.github.io/levels/level{номер}
+
 для создания папки
 - new files
 в имени файла levels/level1
