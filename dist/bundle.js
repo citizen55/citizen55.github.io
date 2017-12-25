@@ -15044,7 +15044,7 @@ var _class = function (_Phaser$State) {
             // this.text2 = game.add.text(300, 250, 'Loading...', { fill: '#ffffff' });
             game.load.onLoadStart.add(this.start, this);
             game.load.onLoadComplete.add(this.loadComplete, this);
-            var res = "levels/level" + num + ".json";
+            var res = "https://budashon.github.io/levels/level" + num + ".json";
             game.load.json('level', res);
             game.load.start();
             //game.load.onLoadStart.add(loadStart, this);
