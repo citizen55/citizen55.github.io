@@ -16,7 +16,7 @@
     <li>0 - нет доски</li>
    <li>1 = есть доска</li>
 </ul>
-ищет по адресу https://budashon.github.io/levels/level{номер} <br>
+ищет по адресу https://budashon.github.io/levels/level{номер}.json <br>
 для создания папки<br>
 - new files<br>
 - в имени файла levels/level1 <br>
