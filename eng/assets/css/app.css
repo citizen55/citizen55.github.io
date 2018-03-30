@@ -1,0 +1,270 @@
+/*
+* Hangam Styles
+*Author: Andy Osei
+*/
+
+
+/* The Overlay (background) */
+
+div.overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    height: 100%;
+    width: 0;
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    /* background-color: rgb(0, 0, 0); */
+    /* Black fallback color */
+    /* background-color: rgba(0, 0, 0, 0.9); */
+    /* Black w/opacity */
+    /*background-image: url('../images/hangman.jpg');*/
+    background-color: #eeeeee;
+    overflow-x: hidden;
+    /* Disable horizontal scroll */
+    transition: 0.5s;
+    /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+
+/* Position the content inside the overlay */
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    /* 25% from the top */
+    width: 100%;
+    /* 100% width */
+    text-align: center;
+    /* Centered text/links */
+    margin-top: 30px;
+    /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+
+/* the span element inside the overlay */
+
+.overlay span {
+    font-size: 50px;
+    margin: 4em 0;
+    color: #f1f1f1;
+}
+
+
+/* The navigation links inside the overlay */
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 30px;
+    color: #818181;
+    display: block;
+    /* Display block instead of inline */
+    transition: 0.3s;
+    /* Transition effects on hover (color) */
+}
+
+
+/* When you mouse over the navigation links, change their color */
+
+.overlay a:hover,
+.overlay a:focus {
+    color: #ef9800;
+}
+
+
+/* Position the close button (top right corner) */
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+body {
+    /*background: url('../images/bg_hg.png') repeat-x;*/
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    color: #101010;
+    height: 100%;
+    text-align: center;
+    font-size: 18px;
+}
+
+.wrappper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.wrapper:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+canvas {
+    /*color: #fff;*/
+    background-image: url('../images/bg_hg.png');
+    border: #fff dashed 2px;
+    padding: 15px;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    text-transform: uppercase;
+    margin: 5px 0;
+}
+
+h1 {
+    font-size: 2.6em;
+}
+
+h2 {
+    font-size: 1.6em;
+}
+
+p {
+    font-size: 1.6em;
+}
+
+#alphabet {
+    margin: 15px auto;
+    padding: 0;
+    max-width: 900px;
+}
+
+#alphabet:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#alphabet li {
+    font-size: 1.1em;
+    float: left;
+    margin: 0 5px 5px 0;
+    list-style: none;
+    width: 35px;
+    height: 30px;
+    background: #fff;
+    color: #ef9800;
+    cursor: pointer;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -khtml-border-radius: 5px;
+    border: solid 1px #000;
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5);
+}
+
+#alphabet li:hover {
+    background: #EF9800;
+    border: solid 1px #fff;
+    color: #fff;
+}
+
+.my-word {
+    margin: 0;
+    display: block;
+    padding: 0;
+    display: block;
+}
+
+.my-word li {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 1.6em;
+}
+
+.active {
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    -moz-transition: all 1s ease-in;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    cursor: default;
+}
+
+.active:hover {
+    -moz-transition: all 1s ease-in;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    opacity: 0.4;
+    filter: alpha(opacity=40);
+    -moz-transition: all 1s ease-in;
+    -moz-transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+}
+
+#mylives {
+    font-size: 1.1em;
+    text-align: center;
+    display: block;
+}
+
+#buttons{
+    margin-left: 0.5em;
+    margin-top: 1em;
+}
+
+button {
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -khtml-border-radius: 5px;
+    background: #FFA500;
+    color: #fff;
+    border: solid 1px #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 18px 10px;
+    width: 180px;
+    margin: 10px;
+    outline: none;
+}
+
+button:hover {
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    background: #fff;
+    border: solid 1px #fff;
+    color: #FFA500;
+}
+
+#catagoryName {
+    font-size: 1em;
+    padding: 10px;
+}
+
+#hold {
+    margin-top: 1.5em;
+}
+
+#clue {
+    margin-bottom: 0.5em;
+}
+
+#clue p {
+    font-size: 1em;
+}
+
+#blink1 {
+    -webkit-animation: blink1 1s linear infinite;
+    animation: blink1 1s linear infinite;
+}
+@-webkit-keyframes blink1 {
+    100% { color: rgba(34, 34, 34, 0); }
+}
+@keyframes blink1 {
+    100% { color: rgba(34, 34, 34, 0); }
+}
