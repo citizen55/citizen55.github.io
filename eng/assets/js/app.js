@@ -76,7 +76,7 @@ var parse = function (data) {
 
     for (var str = 0; str < rows.length; str++){
         var res = rows[str].split(':');
-        if(res !== ''){
+        if(res !== '' && res[0] !== ''){
             words[str] = res.shift().trim();
             clues[str] = res.shift().trim();
         }
