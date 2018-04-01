@@ -13,12 +13,21 @@ var myStickman = document.getElementById("stickman");
 var context = myStickman.getContext('2d');
 var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
     'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-    't', 'u', 'v', 'w', 'x', 'y', 'z'
+    't', 'u', 'v', 'w', 'x', 'y', 'z', '\''
 ];
 /* разрешение выбора букв*/
 var allow = false;
 
-var totalTime = 0;
+var totalTime = "2:00";
+
+console.log(window.innerWidth);
+console.log(window.innerHeight);
+
+var canvasWidth = window.innerWidth <= 300? window.innerWidth - 30 : 300;
+var canvasHeight = window.innerWidth <= 520? window.innerHeight/4 : 150;
+myStickman.setAttribute("width", canvasWidth);
+myStickman.setAttribute("height", canvasHeight);
+
 
 drawArray = ['leg', 'arm', 'body', 'head', 'frame4', 'frame3', 'frame2'];
 
@@ -28,10 +37,16 @@ document.getElementById("myNav").style.width = "100%";
 /**
  * switch to single player mode (timed or untimed)
  */
-document.getElementById('single-player-timed').addEventListener('click', function(event) {
+var screenSaver = document.getElementById('single-player-timed');
+
+var handlerStart = function(event){
     event.preventDefault();
     closeNav();
-});
+}
+
+screenSaver.addEventListener('click', handlerStart);
+
+
 
 /* Close when someone clicks on the "x" symbol inside the overlay */
 function closeNav() {
@@ -66,8 +81,7 @@ var getData = function(){
             return;
         }
         text = this.responseText;
-        parse(text);
-        play();
+        startPlay();
     }
 }
 
@@ -84,6 +98,11 @@ var parse = function (data) {
 }
 
 getData();
+
+var startPlay = function () {
+    parse(text);
+    play();
+}
 
 // create alphabet ul
 var createBtnLetter = function() {
@@ -216,11 +235,11 @@ drawer.draw = function(fromX, fromY, toX, toY) {
 }
 
 drawer.frame1 = function() {
-    this.draw(0, 150, 150, 150);
+    this.draw(0, canvasHeight, canvasHeight, canvasHeight);
 };
 
 drawer.frame2 = function() {
-    this.draw(10, 0, 10, 600);
+    this.draw(10, 0, 10, canvasHeight);
 };
 
 drawer.frame3 = function() {
@@ -294,9 +313,23 @@ play = function() {
     }
 }
 
+var handlerRepeat = function(){
+    startPlay();
+    closeNav();
+}
+
 var finish = function(){
+    screenSaver.removeEventListener("click", handlerStart );
+    screenSaver.innerHTML = "<i class=\"fa fa-location-arrow\" aria-hidden=\"true\"></i>" + " Repeat";
+    var infoTime = document.createElement('p');
+    infoTime.setAttribute("class", "info-time");
+    infoTime.innerHTML = "Your timing today: " + totalTime;
+    screenSaver.appendChild(infoTime);
+    screenSaver.addEventListener("click", handlerRepeat)
     openNav();
 }
+
+
 
 /**
  * Resets the game
@@ -308,4 +341,6 @@ var reset = function () {
     context.clearRect(0, 0, 400, 400);
     play();
 }
+
+
 
