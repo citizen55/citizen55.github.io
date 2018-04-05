@@ -111,6 +111,7 @@ body {
 
 canvas {
     background-image: url('../images/board.png');
+    background-size: contain;
     color: #000;
     padding: 20px;
     vertical-align: bottom;
@@ -280,5 +281,21 @@ button:hover {
 @keyframes blink1 {
     100% { color: rgba(34, 34, 34, 0); }
 }
+
+@media (max-width: 300px) {
+    #clue {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    #clue p {
+        font-size: 1em;
+    }
+
+    #overlay-content p {
+        font-size: 1.2em;
+    }
+}
+
+
 
 
