@@ -1,8 +1,3 @@
-/*
-* Hangam Styles
-*Author: Andy Osei
-*/
-
 
 /* The Overlay (background) */
 
@@ -55,7 +50,7 @@ div.overlay {
 
 /* The navigation links inside the overlay */
 
-.overlay a {
+.overlay a{
     padding: 8px;
     text-decoration: none;
     font-size: 30px;
@@ -66,12 +61,22 @@ div.overlay {
     /* Transition effects on hover (color) */
 }
 
+#overlay-content p {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 30px;
+    color: #818181;
+    display: block;
+    /* Display block instead of inline */
+    transition: 0.3s;
+    /* Transition effects on hover (color) */
+}
 
 /* When you mouse over the navigation links, change their color */
 
 .overlay a:hover,
 .overlay a:focus {
-    color: #ef9800;
+    color: #f48e15;
 }
 
 
@@ -105,10 +110,10 @@ body {
 }
 
 canvas {
-    /*color: #fff;*/
-    background-image: url('../images/bg_hg.png');
-    border: #fff dashed 2px;
-    padding: 15px;
+    background-image: url('../images/board.png');
+    color: #000;
+    padding: 20px;
+    vertical-align: bottom;
 }
 
 h1,
@@ -132,6 +137,10 @@ p {
     font-size: 1.6em;
 }
 
+p.info-time {
+    font-size: 1em;
+}
+
 #alphabet {
     margin: 15px auto;
     padding: 0;
@@ -146,13 +155,14 @@ p {
 
 #alphabet li {
     font-size: 1.1em;
+    font-weight: bold;
     float: left;
     margin: 0 5px 5px 0;
     list-style: none;
     width: 35px;
     height: 30px;
     background: #fff;
-    color: #ef9800;
+    color: #f48e15;
     cursor: pointer;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -163,7 +173,7 @@ p {
 }
 
 #alphabet li:hover {
-    background: #EF9800;
+    background: #f48e15;
     border: solid 1px #fff;
     color: #fff;
 }
@@ -204,8 +214,9 @@ p {
     -webkit-transition: all 0.3s ease-in-out;
 }
 
-#mylives {
-    font-size: 1.1em;
+#result-info {
+    margin-top: 1em;
+    font-size: 1.2em;
     text-align: center;
     display: block;
 }
@@ -251,11 +262,12 @@ button:hover {
 }
 
 #clue {
-    margin-bottom: 0.5em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 #clue p {
-    font-size: 1em;
+    font-size: 1.2em;
 }
 
 #blink1 {
@@ -268,3 +280,5 @@ button:hover {
 @keyframes blink1 {
     100% { color: rgba(34, 34, 34, 0); }
 }
+
+
