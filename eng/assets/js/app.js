@@ -1,4 +1,10 @@
 var text;
+var phraseText;
+var winPhrase = ['Excellent job!'];
+var failPhrase = ['It’s a fail'];
+var startPhrase = ['start'];
+var finishPhrase = ['finish'];
+var repeatPhrase = ['repeat'];
 var words = [];
 var clues = [];
 var pClue;
@@ -18,16 +24,19 @@ var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
 /* разрешение выбора букв*/
 var allow = false;
 
-var totalTime = "2:00";
+/*количество слов*/
+var successWords = 0;
 
-console.log(window.innerWidth);
-console.log(window.innerHeight);
+var totalTime = "2:00";
 
 var canvasWidth = window.innerWidth <= 300? window.innerWidth - 30 : 300;
 var canvasHeight = window.innerWidth <= 520? window.innerHeight/4 : 150;
 myStickman.setAttribute("width", canvasWidth);
 myStickman.setAttribute("height", canvasHeight);
 
+var style = "margin-top: " + (window.innerHeight >=600? window.innerHeight/8 : 0) + "px";
+var divTop = document.getElementById("top");
+divTop.setAttribute("style", style);
 
 drawArray = ['leg', 'arm', 'body', 'head', 'frame4', 'frame3', 'frame2'];
 
@@ -37,14 +46,15 @@ document.getElementById("myNav").style.width = "100%";
 /**
  * switch to single player mode (timed or untimed)
  */
-var screenSaver = document.getElementById('single-player-timed');
+var screenSaverLink = document.getElementById('single-player-timed');
+var screenSaver = document.getElementById('overlay-content');
 
 var handlerStart = function(event){
     event.preventDefault();
     closeNav();
 }
 
-screenSaver.addEventListener('click', handlerStart);
+screenSaverLink.addEventListener('click', handlerStart);
 
 
 
@@ -58,7 +68,7 @@ var openNav = function () {
 }
 
 // Get elements
-var showLives = document.getElementById("mylives");
+//var resultInfo = document.getElementById("result-info");
 var clue = document.getElementById("clue");
 pClue = document.createElement('p');
 clue.appendChild(pClue);
@@ -83,9 +93,26 @@ var getData = function(){
         text = this.responseText;
         startPlay();
     }
+
+    var xhr_phrase = new XHR();
+    xhr_phrase.open('GET', 'lesson/phrase.txt', true);
+    xhr_phrase.responseType = 'text';
+    xhr_phrase.send();
+
+    xhr_phrase.onreadystatechange = function (ev) {
+        if (this.readyState != 4) return;
+
+        if (this.status != 200) {
+            // обработать ошибку
+            consolo.log( 'ошибка: ' + (this.status ? this.statusText : 'запрос не удался') );
+            return;
+        }
+        phraseText = this.responseText;
+        parsePhrase();
+    }
 }
 
-var parse = function (data) {
+var parseWords = function (data) {
     var rows = data.split(/\r?\n|\r/);
 
     for (var str = 0; str < rows.length; str++){
@@ -95,12 +122,43 @@ var parse = function (data) {
             clues[str] = res.shift().trim();
         }
     }
+
+    successWords = words.length;
+}
+
+var parsePhrase = function () {
+    var rows = phraseText.split(/\r?\n|\r/);
+
+    for (var str = 0; str < rows.length; str++){
+        var res = rows[str].split(':');
+        if(res !== '' && res[0] !== ''){
+            switch (res[0].trim().toLowerCase()){
+                case 'win':
+                    winPhrase.push(res[1].trim());
+                    break;
+                case 'fail':
+                    failPhrase.push(res[1].trim());
+                    break;
+                case 'start':
+                    startPhrase.push(res[1].trim());
+                    break;
+                case 'finish':
+                    finishPhrase.push(res[1].trim());
+                    break;
+                case 'repeat':
+                    repeatPhrase.push(res[1].trim());
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 }
 
 getData();
 
 var startPlay = function () {
-    parse(text);
+    parseWords(text);
     play();
 }
 
@@ -154,7 +212,7 @@ var createClue = function(){
 
 // Show lives
 showInfo = function() {
-    showLives.innerHTML = "You have " + lives + " lives";
+    //resultInfo.innerHTML = "A ";
     if (lives < 1) {
         showFail();
     }
@@ -166,12 +224,16 @@ showInfo = function() {
 }
 
 var showFail = function () {
-
     if(allow){
         allow = false;
-
-        showLives.innerHTML = "oh, no! it’s a fail";
-        showLives.setAttribute("class", "alert-danger");
+        var length = failPhrase.length;
+        if(length == 1){
+            pClue.innerHTML = failPhrase[0];
+        }else if(length > 1){
+            var num = getRandom(0, length - 1);
+            pClue.innerHTML = failPhrase[num];
+        }
+        pClue.setAttribute("class", "alert-danger");
 
         for (var i = 0; i < word.length; i++) {
             letters[i].innerHTML = word[i];
@@ -180,7 +242,7 @@ var showFail = function () {
         correct.setAttribute('id', 'blink1');
 
         setTimeout(function() {
-            showLives.setAttribute("class", "");
+            pClue.setAttribute("class", "");
             reset();
         }, 4000);
     }
@@ -190,9 +252,15 @@ var showWin = function(){
 
     if(allow){
         allow = false;
-
-        showLives.innerHTML = "Excellent job! Congratulations";
-        showLives.setAttribute("class", "alert-success");
+        successWords--;
+        var length = winPhrase.length;
+        if(length == 1){
+            pClue.innerHTML = winPhrase[0];
+        }else if(length > 1){
+            var num = getRandom(0, length - 1);
+            pClue.innerHTML = winPhrase[num];
+        }
+        pClue.setAttribute("class", "alert-success");
 
         for (var i = 0; i < word.length; i++) {
             letters[i].innerHTML = word[i];
@@ -201,7 +269,7 @@ var showWin = function(){
         correct.setAttribute('id', 'blink1');
 
         setTimeout(function() {
-            showLives.setAttribute("class", "");
+            pClue.setAttribute("class", "");
             reset();
         }, 4000);
     }
@@ -219,12 +287,12 @@ var drawer = {};
 drawer.canvas = function() {
     context.beginPath();
     context.strokeStyle = "#fff";
-    context.lineWidth = 2;
+    context.lineWidth = 3;
 };
 
 drawer.head = function() {
     context.beginPath();
-    context.arc(60, 25, 10, 0, Math.PI * 2, true);
+    context.arc(150, 30, 10, 0, Math.PI * 2, true);
     context.stroke();
 }
 
@@ -239,29 +307,29 @@ drawer.frame1 = function() {
 };
 
 drawer.frame2 = function() {
-    this.draw(10, 0, 10, canvasHeight);
+    this.draw(80, 10, 80, canvasHeight - 10);
 };
 
 drawer.frame3 = function() {
-    this.draw(0, 5, 70, 5);
+    this.draw(75, 15, 145, 15);
 };
 
 drawer.frame4 = function() {
-    this.draw(60, 5, 60, 15);
+    this.draw(140, 15, 140, 35);
 };
 
 drawer.body = function() {
-    this.draw(60, 36, 60, 70);
+    this.draw(147, 38, 145, 80);
 };
 
 drawer.arm = function () {
-    this.draw(60, 46, 100, 50);
-    this.draw(60, 46, 20, 50);
+    this.draw(147, 46, 167, 70);
+    this.draw(147, 46, 127, 70);
 };
 
 drawer.leg = function () {
-    this.draw(60, 70, 100, 100);
-    this.draw(60, 70, 20, 100);
+    this.draw(145, 80, 155, 115);
+    this.draw(145, 80, 135, 115);
 }
 
 
@@ -319,13 +387,30 @@ var handlerRepeat = function(){
 }
 
 var finish = function(){
-    screenSaver.removeEventListener("click", handlerStart );
-    screenSaver.innerHTML = "<i class=\"fa fa-location-arrow\" aria-hidden=\"true\"></i>" + " Repeat";
+    screenSaverLink.removeEventListener("click", handlerStart );
+    screenSaverLink.innerHTML = "<i class=\"fa fa-location-arrow\" aria-hidden=\"true\"></i>" + " Repeat";
     var infoTime = document.createElement('p');
     infoTime.setAttribute("class", "info-time");
-    infoTime.innerHTML = "Your timing today: " + totalTime;
+
+    var length = finishPhrase.length;
+    if(length == 1){
+        if(successWords == 0){
+            infoTime.innerHTML = finishPhrase[0];
+        }else{
+            infoTime.innerHTML = finishPhrase[0];
+        }
+    }else if(length > 1){
+        if(successWords == 0){
+            var num = getRandom(0, length - 1);
+            infoTime.innerHTML = finishPhrase[num];
+        }else {
+            var num = getRandom(0, length - 1);
+            infoTime.innerHTML = finishPhrase[num];
+        }
+    }
+    //infoTime.innerHTML = ;
     screenSaver.appendChild(infoTime);
-    screenSaver.addEventListener("click", handlerRepeat)
+    screenSaverLink.addEventListener("click", handlerRepeat)
     openNav();
 }
 
@@ -340,6 +425,10 @@ var reset = function () {
     pClue.innerHTML = "";
     context.clearRect(0, 0, 400, 400);
     play();
+}
+
+var getRandom = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 
