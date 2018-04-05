@@ -1,5 +1,6 @@
 var text;
 var phraseText;
+var finishText = null;
 var winPhrase = ['Excellent job!'];
 var failPhrase = ['It’s a fail'];
 var startPhrase = ['start'];
@@ -29,7 +30,10 @@ var successWords = 0;
 
 var totalTime = "2:00";
 
-var canvasWidth = window.innerWidth <= 300? window.innerWidth - 30 : 300;
+console.log(window.innerWidth);
+console.log(window.innerHeight);
+
+var canvasWidth = window.innerWidth <= 300? window.innerWidth - 40 : 300;
 var canvasHeight = window.innerWidth <= 520? window.innerHeight/4 : 150;
 myStickman.setAttribute("width", canvasWidth);
 myStickman.setAttribute("height", canvasHeight);
@@ -204,7 +208,7 @@ var createHiddenWord = function() {
 var createClue = function(){
     pClue.setAttribute("id", "blink1");
 
-    pClue.innerHTML = "Clue: - " + clues.shift();
+    pClue.innerHTML = "Clue: " + clues.shift();
     setTimeout(function () {
        pClue.setAttribute("id", "");
     }, 2000);
@@ -328,8 +332,8 @@ drawer.arm = function () {
 };
 
 drawer.leg = function () {
-    this.draw(145, 80, 155, 115);
-    this.draw(145, 80, 135, 115);
+    this.draw(145, 80, 155, canvasHeight - 20);
+    this.draw(145, 80, 135, canvasHeight - 20);
 }
 
 
@@ -389,27 +393,34 @@ var handlerRepeat = function(){
 var finish = function(){
     screenSaverLink.removeEventListener("click", handlerStart );
     screenSaverLink.innerHTML = "<i class=\"fa fa-location-arrow\" aria-hidden=\"true\"></i>" + " Repeat";
-    var infoTime = document.createElement('p');
-    infoTime.setAttribute("class", "info-time");
+
+    if(finishText instanceof Object){
+        finishText.innerHTML = '';
+    }else{
+        finishText = document.createElement('p');
+        finishText.setAttribute("class", "info-time");
+        screenSaver.appendChild(finishText);
+    }
+    //var infoTime = document.createElement('p');
 
     var length = finishPhrase.length;
     if(length == 1){
         if(successWords == 0){
-            infoTime.innerHTML = finishPhrase[0];
+            finishText.innerHTML = finishPhrase[0];
         }else{
-            infoTime.innerHTML = finishPhrase[0];
+            finishText.innerHTML = finishPhrase[0];
         }
     }else if(length > 1){
         if(successWords == 0){
             var num = getRandom(0, length - 1);
-            infoTime.innerHTML = finishPhrase[num];
+            finishText.innerHTML = finishPhrase[num];
         }else {
             var num = getRandom(0, length - 1);
-            infoTime.innerHTML = finishPhrase[num];
+            finishText.innerHTML = finishPhrase[num];
         }
     }
     //infoTime.innerHTML = ;
-    screenSaver.appendChild(infoTime);
+
     screenSaverLink.addEventListener("click", handlerRepeat)
     openNav();
 }
