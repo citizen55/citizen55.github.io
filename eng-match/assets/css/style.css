@@ -1,0 +1,65 @@
+.card{
+    /*border: solid 1px #000;*/
+    box-shadow: 3px 3px 5px 0px rgba(0,0,0,0.5);
+    height: 150px;
+    width: 100px;
+    margin: 0.5rem;
+    cursor: pointer;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    -khtml-border-radius: 15px;
+    float: left;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.card.is-flipped {
+    transform: rotateY(180deg);
+    /*box-shadow: -3px 3px 5px 0px rgba(0,0,0,0.5);*/
+}
+
+.surface{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 150px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    backface-visibility: hidden;
+}
+
+.shirt{
+    background-image: url('../images/shirt.png');
+}
+
+.front{
+    overflow: hidden;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    border-radius: 15px;
+    -khtml-border-radius: 15px;
+    background-color: aquamarine;
+    transform: rotateY(180deg);
+}
+
+div.center{
+    display: inline;
+}
+
+p.word{
+    vertical-align: middle;
+    line-height: 2rem;
+    margin: 0;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.img{
+    vertical-align: middle;
+}
+
