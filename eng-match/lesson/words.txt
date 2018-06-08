@@ -8,13 +8,3 @@ ride : ride.png
 scrub : scrub.png
 sing : sing.png
 skate : skate.png
-sleep : sleep.png
-slide : slide.png
-spin : spin.png
-sweep : sweep.png
-swim : swim.png
-talk : talk.png
-throw : throw.png
-turn : turn.png
-walk : walk.png
-write : write.png
