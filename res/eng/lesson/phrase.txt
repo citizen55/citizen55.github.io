@@ -1,0 +1,8 @@
+win : Great job today! See you later!
+win : Nice going today! See you later!
+win : Excellent job! Congratulations
+fail : Oh, no! it’s a fail
+fail : Unfortunately you failed
+finish : Nice going today! See you later!
+finish : Great job today! See you later!
+repeat : repeat

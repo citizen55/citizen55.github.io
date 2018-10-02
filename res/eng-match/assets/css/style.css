@@ -1,0 +1,193 @@
+html.mobile{
+    font-size: 12px;
+}
+
+.card{
+    /*border: solid 1px #000;*/
+    box-shadow: 8px 8px 10px 0px rgba(75,75,75,0.5);
+    height: 7.5rem;
+    width: 6.25rem;
+    margin: 0.5rem;
+    cursor: pointer;
+    -moz-border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    border-radius: 1rem;
+    -khtml-border-radius: 1rem;
+    float: left;
+    background-size: contain;
+    background-repeat: no-repeat;
+    transition: transform .8s;
+    transform-style: preserve-3d;
+    position: relative;
+    transition: .8s linear;
+}
+
+.mobile .card{
+    margin: 0.4rem;
+    height: 6.25rem;
+}
+
+.card.is-flipped.is-matched,
+.end-time .card{
+    box-shadow: -2px 2px 4px 0px rgba(20,20,20,0.5);
+    color: #777777;
+}
+
+.card.is-flipped {
+    transform: rotateY(180deg);
+    box-shadow: -8px 8px 10px 0px rgba(75,75,75,0.5);
+}
+
+
+.surface{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 7.5rem;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    backface-visibility: hidden;
+    -moz-border-radius: 1rem;
+    -webkit-border-radius: 1rem;
+    border-radius: 1rem;
+    -khtml-border-radius: 1rem;
+    border: 1px solid black;
+    transition: .8s linear;
+}
+
+.mobile .surface{
+    line-height: 6.25rem;
+}
+
+.is-matched .surface{
+    border: 1px solid white;
+}
+
+
+.shirt{
+    background-color: #FFBC40;
+    /*background-image: url('../images/shirt.png');*/
+}
+
+.end-time .shirt{
+    background-color: #FFCE73;
+}
+
+.front{
+    overflow: hidden;
+    background-color: white;
+    transform: rotateY(180deg);
+}
+
+div.center{
+    display: inline;
+}
+
+p.word{
+    vertical-align: middle;
+    line-height: 2rem;
+    margin: 0;
+    word-wrap: break-word;
+    display: inline-block;
+}
+
+.img{
+    vertical-align: middle;
+    transition: .8s linear;
+}
+
+.is-matched .img{
+    filter: grayscale(60%);
+}
+
+.info-block{
+    padding: 0.5rem;
+    font-family: "Arial Black";
+    text-align: center;
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: green;
+}
+
+.info-block.warning{
+    color: red;
+}
+
+#info.no-see{
+    color: white;
+}
+
+#info.blink {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+.info-block.alert-success{
+    background-color: #dff0d8;
+}
+
+.info-block.alert-danger{
+    background-color: #f8d7da;
+}
+
+/*nav************************/
+
+/* The Overlay (background) */
+div.overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: #eeeeee;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+div.overlay.close{
+    width: 0;
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 3rem;
+}
+
+/* The navigation links inside the overlay */
+.overlay a{
+    padding: 8px;
+    text-decoration: none;
+    font-size: 2.5rem;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover{
+    color: #f48e15;
+}
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
