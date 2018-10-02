@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sergey</title>
+    <atom:link href="https://citizen55.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
+    <link>https://citizen55.github.io</link>
+    <description>Might come in handy</description>
+    <pubDate>Wed, 15 Nov 2017 15:00:00 +0600</pubDate>
+    <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
+    <language>en</language>
+    <item>
+      <title>Make fast FSM</title>
+      <link>https://citizen55.github.io/articles/2017-11-15-Finite-State-Machine/</link>
+      <pubDate>Wed, 15 Nov 2017 15:00:00 +0600</pubDate>
+      <guid isPermaLink="true">https://citizen55.github.io/articles/2017-11-15-Finite-State-Machine/</guid>
+      <author></author>
+      <description>&lt;p&gt;Попытка создания быстрого конечного автомата на ява скрипте с использованием побитовых операторов&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Подсказки по Гиту</title>
+      <link>https://citizen55.github.io/articles/2017-04-02-Git-Tips-Brief/</link>
+      <pubDate>Sun, 02 Apr 2017 09:00:00 +0600</pubDate>
+      <guid isPermaLink="true">https://citizen55.github.io/articles/2017-04-02-Git-Tips-Brief/</guid>
+      <author></author>
+      <description>&lt;style&gt; td {padding-right: 1rem;}&lt;/style&gt;
+
+&lt;h3 id=&quot;-&quot;&gt;Команды Гит для локальной работы&lt;/h3&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;table class=&quot;table table-striped&quot;&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th style=&quot;text-align:left&quot;&gt;Команда&lt;/th&gt;
+        &lt;th style=&quot;text-align:left&quot;&gt;Что делает&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git init&lt;/td&gt;
+        &lt;td&gt;инициализация репозитория в текущем каталоге&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git clone git://host.org/project.git&lt;/td&gt;
+        &lt;td&gt;клонирование удаленного репозитория&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git add new_filename&lt;/td&gt;
+        &lt;td&gt;добавление нового файла&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git add .&lt;/td&gt;
+        &lt;td&gt;Вносит в индекс все изменния, включая обновления и новые файлы&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git add src/&lt;/td&gt;
+        &lt;td&gt;Добавление каталога&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git rm  filename&lt;/td&gt;
+        &lt;td&gt;удаление файла/директории из рабочей директории&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git rm  -r src/&lt;/td&gt;
+        &lt;td&gt;Удаление каталога рекурсивно (со всем содержимым)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git rm –cached –ignore-unmatch file.ext&lt;/td&gt;
+        &lt;td&gt;удаляем файл только из репозитория, и физически файл сохранится на диске&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git rm –cached –ignore-unmatch –r src/&lt;/td&gt;
+        &lt;td&gt;удаляем папку только из репозитория, рекурсивно (с вложенными папками и файлами  и физически файл сохранится на диске&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git mv from  to&lt;/td&gt;
+        &lt;td&gt;перемещение файла/директории&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git status&lt;/td&gt;
+        &lt;td&gt;состояние рабочей директории&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git  commit –a –m “comment”&lt;/td&gt;
+        &lt;td&gt;Одновременное добавление и фиксация изменений&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git commit -a –amend&lt;/td&gt;
+        &lt;td&gt;внесение исправлений в последний коммит&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git commit  –amend&lt;/td&gt;
+        &lt;td&gt;Позволит добавить исправление в комментарии последнего коммита, отправив в текстовый редактор &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git blame filename&lt;/td&gt;
+        &lt;td&gt;кто и что менял в файле filename&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git log&lt;/td&gt;
+        &lt;td&gt;история изменений&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git log –graph –pretty=oneline&lt;/td&gt;
+        &lt;td&gt;графический лог изменений&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git log –oneline –decorate –graph –all&lt;/td&gt;
+        &lt;td&gt;Красивый лог &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git log –pretty=format:”%h %s” –graph &lt;/td&gt;
+        &lt;td&gt;Графический лог изменений с форматированием&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git reset&lt;/td&gt;
+        &lt;td&gt;Сброс индекса если есть&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git reset file.txt&lt;/td&gt;
+        &lt;td&gt;Сброс индекса для указанного файла, есди он внесен в индекс&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git diff REV_ID1  REV_ID2&lt;/td&gt;
+        &lt;td&gt;Изменения между ревизией REV_ID1 и REV_ID2&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git show REV_ID:filename&lt;/td&gt;
+        &lt;td&gt;Показать конкретный файл filename из ревизии REV_ID&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git reset –hard&lt;/td&gt;
+        &lt;td&gt;Вернутся к предыдущему состоянию рабочей директории&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git add . &lt;br&gt; git commit  –amend&lt;/td&gt;
+        &lt;td&gt;Если добавить файлы в индекс то они добавятся вместе с предложением исправить комментарий&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git branch&lt;/td&gt;
+        &lt;td&gt;Список всех веток&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git branch branch_name&lt;/td&gt;
+        &lt;td&gt;Создание ветки branch_name&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git branch -d branch_name&lt;/td&gt;
+        &lt;td&gt;удаление ветки branch_name&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git checkout branch_name&lt;/td&gt;
+        &lt;td&gt;переключение на ветку branch_name&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git checkout branch_name1&lt;br&gt;
+            git merge branch_name2&lt;/td&gt;
+        &lt;td&gt;Слияние веток branch_name1 и branch_name2 сливается в ту ветку в которой сейчас стоим&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git stash&lt;/td&gt;
+        &lt;td&gt;Затаить файлы&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git stash list&lt;/td&gt;
+        &lt;td&gt;Посмотреть список затаенных файлов&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git stash apply stash@{2}&lt;/td&gt;
+        &lt;td&gt;Применить определенный тайник, при этом он останется в памяти&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git stash drop stash@2&lt;/td&gt;
+        &lt;td&gt;Удалить определенный тайник&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git stash pop&lt;/td&gt;
+        &lt;td&gt;Применить и сразу удалить тайник&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git stash apply&lt;/td&gt;
+        &lt;td&gt;Применить последний&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git tag tag_name&lt;/td&gt;
+        &lt;td&gt;Помечаем текущую ревизию тегом tag_name легкие без дополнительной иформации&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git tag &lt;/td&gt;
+        &lt;td&gt;Просмотр всех тэгов (меток)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;git tag –a “version 1.0” –m “release1.0”&lt;/td&gt;
+        &lt;td&gt;Установка тэга (метки) Аннотированные с доп. данными&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;-c-&quot;&gt;Команды Гит для работы c удаленным репозиторием&lt;/h3&gt;
+&lt;table class=&quot;table table-striped&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Команда&lt;/th&gt;
+      &lt;th&gt;Что делает&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;git push –u origin  name-branch &lt;/td&gt;
+      &lt;td&gt;Отправляем изменения ветки в удаленный репозиторий
+        Ключ –u привязывает ветку в лок. рпз с удаленным
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;git fetch&lt;/td&gt;
+      &lt;td&gt;Получаем последние обновления из origin (удаленного репозитория) без слияния с текущем состоянием&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;git pull origin master&lt;/td&gt;
+      &lt;td&gt;Получаем последние обновления из origin репозитория) со слиянием с текущем состоянием)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;git branch -u origin/master &lt;br&gt;
+        git pull
+        &lt;/td&gt;
+      &lt;td&gt;Установка ветки upstream получение обновлений
+        &lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;git push&lt;/td&gt;
+      &lt;td&gt;Вносим изменения в origin&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;git push –tags&lt;/td&gt;
+      &lt;td&gt;Отправка меток в удаленное хранилище&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;</description>
+    </item>
+    <item>
+      <title>Кубики-шарики</title>
+      <link>https://citizen55.github.io/articles/2014-08-25-Cubiks-Balls-Flash/</link>
+      <pubDate>Mon, 25  Aug 2014 09:00:00 +0600</pubDate>
+      <guid isPermaLink="true">https://citizen55.github.io/articles/2014-08-25-Cubiks-Balls-Flash/</guid>
+      <author></author>
+      <description>&lt;p&gt;Небольшая игра с удалением цветных блоков, в моей интерпритации еще и с шариками, которые летят вверх, делал - с целью изучения as3.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;iframe src=&quot;http://citizen55.github.io/res/..cubik/index.html&quot; frameborder=&quot;0&quot; width=&quot;820&quot; height=&quot;620&quot;  allowfullscreen=&quot;true&quot; mozallowfullscreen=&quot;true&quot; webkitallowfullscreen=&quot;true&quot; style=&quot;margin-right: -20px; margin-left: -20px;&quot;&gt;&lt;/iframe&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Подсказки по Гиту -Sergey
+    </title>
+    <link rel="alternate" href="https://citizen55.github.io/feed.xml" type="application/rss+xml" title="Might come in handy">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <style type="text/css">
+      body {
+          padding-top: 60px;
+          padding-bottom: 40px;
+      }
+      h1 {
+          font-size: 2em;
+      }
+      h2 {
+          font-size: 1.8em;
+      }
+      h3 {
+          font-size: 1.7em;
+      }
+      
+      @media only screen
+      and (min-width : 768px)
+      and (max-width : 995px) {
+          h3 {
+              font-size: 1.2em;
+          }
+      }
+      
+    </style>
+    <link rel="stylesheet" href="/assets/css/prettify.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=ABeeZee&amp;subset=latin">
+    <link rel="stylesheet" href="/assets/css/app.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar navbar-inverse navbar-fixed-top light">
+        <div class="container">
+          <div class="navbar-header"><b><a href="https://citizen55.github.io" class="navbar-brand">Might come in handy</a></b>
+            <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          </div>
+          <div id="navbar-main" class="navbar-collapse collapse"><!-- .nav, .navbar-search, .navbar-form, etc -->
+            <ul class="nav navbar-nav">
+              <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Tags<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/tag/flash.html">flash</a></li>
+                  <li><a href="/tag/game.html">game</a></li>
+                  <li><a href="/tag/games.html">games</a></li>
+                  <li><a href="/tag/git.html">git</a></li>
+                  <li><a href="/tag/tips.html">tips</a></li>
+                  <li><a href="/tag/try.html">try</a></li>
+                </ul>
+              </li>
+              <li><a href="/archive.html">Archives</a></li>
+            </ul>
+            <form id="search-form" action="http://www.google.com/search" method="get" class="navbar-form pull-right"><span class="glass js-search-action"><i></i></span>
+              <input type="hidden" value="UTF-8" name="ie">
+              <input type="hidden" value="UTF-8" name="oe">
+              <input type="hidden" value="citizen55.github.io" name="domains">
+              <input type="hidden" value="citizen55.github.io" name="sitesearch">
+              <input name="q" type="text" placeholder="Search using Google..." class="search-query span2">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9 col-sm-9">
+          <article class="post shadow">
+            <div>
+              <h1>Подсказки по Гиту</h1>
+              <footer class="footer">
+                <div style="font-size: 13px" class="inner">Posted by&nbsp;<span class="author"><a href="mailto:kovtunovsa@gmail.com">Sergey</a></span>&nbsp;
+                  | on&nbsp;<a href="/archive.html" class="back">April 02, 2017&nbsp;</a>| Tags :&nbsp;<a href="/tag/tips.html" rel="category tag" title="View all posts in 'tips'">tips</a>&nbsp;<a href="/tag/git.html" rel="category tag" title="View all posts in 'git'">git</a>&nbsp;
+                </div>
+              </footer>
+            </div>
+            <hr>
+            <section class="content"><style> td {padding-right: 1rem;}</style>
+
+<h3 id="-">Команды Гит для локальной работы</h3>
+<p><span class="more"></span></p>
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th style="text-align:left">Команда</th>
+        <th style="text-align:left">Что делает</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>git init</td>
+        <td>инициализация репозитория в текущем каталоге</td>
+      </tr>
+      <tr>
+        <td>git clone git://host.org/project.git</td>
+        <td>клонирование удаленного репозитория</td>
+      </tr>
+      <tr>
+        <td>git add new_filename</td>
+        <td>добавление нового файла</td>
+      </tr>
+      <tr>
+        <td>git add .</td>
+        <td>Вносит в индекс все изменния, включая обновления и новые файлы</td>
+      </tr>
+      <tr>
+        <td>git add src/</td>
+        <td>Добавление каталога</td>
+      </tr>
+      <tr>
+        <td>git rm  filename</td>
+        <td>удаление файла/директории из рабочей директории</td>
+      </tr>
+      <tr>
+        <td>git rm  -r src/</td>
+        <td>Удаление каталога рекурсивно (со всем содержимым)</td>
+      </tr>
+      <tr>
+        <td>git rm –cached –ignore-unmatch file.ext</td>
+        <td>удаляем файл только из репозитория, и физически файл сохранится на диске</td>
+      </tr>
+      <tr>
+        <td>git rm –cached –ignore-unmatch –r src/</td>
+        <td>удаляем папку только из репозитория, рекурсивно (с вложенными папками и файлами  и физически файл сохранится на диске</td>
+      </tr>
+      <tr>
+        <td>git mv from  to</td>
+        <td>перемещение файла/директории</td>
+      </tr>
+      <tr>
+        <td>git status</td>
+        <td>состояние рабочей директории</td>
+      </tr>
+      <tr>
+        <td>git  commit –a –m “comment”</td>
+        <td>Одновременное добавление и фиксация изменений</td>
+      </tr>
+      <tr>
+        <td>git commit -a –amend</td>
+        <td>внесение исправлений в последний коммит</td>
+      </tr>
+      <tr>
+        <td>git commit  –amend</td>
+        <td>Позволит добавить исправление в комментарии последнего коммита, отправив в текстовый редактор </td>
+      </tr>
+      <tr>
+        <td>git blame filename</td>
+        <td>кто и что менял в файле filename</td>
+      </tr>
+      <tr>
+        <td>git log</td>
+        <td>история изменений</td>
+      </tr>
+      <tr>
+        <td>git log –graph –pretty=oneline</td>
+        <td>графический лог изменений</td>
+      </tr>
+      <tr>
+        <td>git log –oneline –decorate –graph –all</td>
+        <td>Красивый лог </td>
+      </tr>
+      <tr>
+        <td>git log –pretty=format:”%h %s” –graph </td>
+        <td>Графический лог изменений с форматированием</td>
+      </tr>
+      <tr>
+        <td>git reset</td>
+        <td>Сброс индекса если есть</td>
+      </tr>
+      <tr>
+        <td>git reset file.txt</td>
+        <td>Сброс индекса для указанного файла, есди он внесен в индекс</td>
+      </tr>
+      <tr>
+        <td>git diff REV_ID1  REV_ID2</td>
+        <td>Изменения между ревизией REV_ID1 и REV_ID2</td>
+      </tr>
+      <tr>
+        <td>git show REV_ID:filename</td>
+        <td>Показать конкретный файл filename из ревизии REV_ID</td>
+      </tr>
+      <tr>
+        <td>git reset –hard</td>
+        <td>Вернутся к предыдущему состоянию рабочей директории</td>
+      </tr>
+      <tr>
+        <td>git add . <br> git commit  –amend</td>
+        <td>Если добавить файлы в индекс то они добавятся вместе с предложением исправить комментарий</td>
+      </tr>
+      <tr>
+        <td>git branch</td>
+        <td>Список всех веток</td>
+      </tr>
+      <tr>
+        <td>git branch branch_name</td>
+        <td>Создание ветки branch_name</td>
+      </tr>
+      <tr>
+        <td>git branch -d branch_name</td>
+        <td>удаление ветки branch_name</td>
+      </tr>
+      <tr>
+        <td>git checkout branch_name</td>
+        <td>переключение на ветку branch_name</td>
+      </tr>
+      <tr>
+        <td>git checkout branch_name1<br>
+            git merge branch_name2</td>
+        <td>Слияние веток branch_name1 и branch_name2 сливается в ту ветку в которой сейчас стоим</td>
+      </tr>
+      <tr>
+        <td>git stash</td>
+        <td>Затаить файлы</td>
+      </tr>
+      <tr>
+        <td>git stash list</td>
+        <td>Посмотреть список затаенных файлов</td>
+      </tr>
+      <tr>
+        <td>git stash apply stash@{2}</td>
+        <td>Применить определенный тайник, при этом он останется в памяти</td>
+      </tr>
+      <tr>
+        <td>git stash drop stash@2</td>
+        <td>Удалить определенный тайник</td>
+      </tr>
+      <tr>
+        <td>git stash pop</td>
+        <td>Применить и сразу удалить тайник</td>
+      </tr>
+      <tr>
+        <td>git stash apply</td>
+        <td>Применить последний</td>
+      </tr>
+      <tr>
+        <td>git tag tag_name</td>
+        <td>Помечаем текущую ревизию тегом tag_name легкие без дополнительной иформации</td>
+      </tr>
+      <tr>
+        <td>git tag </td>
+        <td>Просмотр всех тэгов (меток)</td>
+      </tr>
+      <tr>
+        <td>git tag –a “version 1.0” –m “release1.0”</td>
+        <td>Установка тэга (метки) Аннотированные с доп. данными</td>
+      </tr>
+    </tbody>
+</table>
+
+<h3 id="-c-">Команды Гит для работы c удаленным репозиторием</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Команда</th>
+      <th>Что делает</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>git push –u origin  name-branch </td>
+      <td>Отправляем изменения ветки в удаленный репозиторий
+        Ключ –u привязывает ветку в лок. рпз с удаленным
+        </td>
+    </tr>
+    <tr>
+      <td>git fetch</td>
+      <td>Получаем последние обновления из origin (удаленного репозитория) без слияния с текущем состоянием</td>
+    </tr>
+    <tr>
+      <td>git pull origin master</td>
+      <td>Получаем последние обновления из origin репозитория) со слиянием с текущем состоянием)</td>
+    </tr>
+    <tr>
+      <td>git branch -u origin/master <br>
+        git pull
+        </td>
+      <td>Установка ветки upstream получение обновлений
+        </td>
+    </tr>
+    <tr>
+      <td>git push</td>
+      <td>Вносим изменения в origin</td>
+    </tr>
+    <tr>
+      <td>git push –tags</td>
+      <td>Отправка меток в удаленное хранилище</td>
+    </tr>
+    </tr>
+  </tbody>
+</table></section>
+            <hr>
+            <!--include partials/bottom-social-->
+            <hr>
+            <h3>Похожие</h3>
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td><a href="/articles/2017-04-02-Git-Tips-Brief/" title="tips,git">Подсказки по Гиту</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <h4></h4>
+            <!--include partials/disqus-->
+          </article>
+        </div>
+        <div id="sidebar" class="col-lg-3 col-sm-3">
+          <div class="sidebar-header"><a href="http://www.citizen55.github.io"><img src="/assets/images/shmel.png" class="img-circle img-responsive"></a>
+            <hr>
+            <h3>
+              <p class="pull-right"><a href="https://github.com/citizen55"><img src="/assets/images/github.png"></a></p>
+              <P><a href="https://github.com/citizen55" style="color:black;">Github</a></P>
+            </h3>
+            <hr>
+          </div>
+          <div class="sidebar">
+            <ol>
+              <li><a href="/articles/2017-11-15-Finite-State-Machine/">Make fast FSM</a><br></li>
+              <li><a href="/articles/2017-04-02-Git-Tips-Brief/">Подсказки по Гиту</a><br></li>
+              <li><a href="/articles/2014-08-25-Cubiks-Balls-Flash/">Кубики-шарики</a><br></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <footer class="footer">
+        <div style="font-size: 13px" class="inner">
+        </div>
+      </footer>
+    </div>
+    <script src="/assets/javascript/jquery.min.js"></script>
+    <script src="/assets/javascript/app.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <!--script(src='http://platform.linkedin.com/in.js')-->
+  </body>
+</html>
