@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title>Веб диктофон -Sergey
+    </title>
+    <link rel="alternate" href="https://citizen55.github.io/feed.xml" type="application/rss+xml" title="Might come in handy">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic|Anonymous+Pro:400,700,400italic,700italic|Merriweather:400,700,300">
+    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <style type="text/css">
+      body {
+          padding-top: 60px;
+          padding-bottom: 40px;
+      }
+      h1 {
+          font-size: 2em;
+      }
+      h2 {
+          font-size: 1.8em;
+      }
+      h3 {
+          font-size: 1.7em;
+      }
+      
+      @media only screen
+      and (min-width : 768px)
+      and (max-width : 995px) {
+          h3 {
+              font-size: 1.2em;
+          }
+      }
+      
+    </style>
+    <link rel="stylesheet" href="/assets/css/prettify.css">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=ABeeZee&amp;subset=latin">
+    <link rel="stylesheet" href="/assets/css/app.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar navbar-inverse navbar-fixed-top light">
+        <div class="container">
+          <div class="navbar-header"><b><a href="https://citizen55.github.io" class="navbar-brand">Might come in handy</a></b>
+            <button type="button" data-toggle="collapse" data-target="#navbar-main" class="navbar-toggle"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+          </div>
+          <div id="navbar-main" class="navbar-collapse collapse"><!-- .nav, .navbar-search, .navbar-form, etc -->
+            <ul class="nav navbar-nav">
+              <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Tags<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="/tag/eductional.html">eductional</a></li>
+                  <li><a href="/tag/flash.html">flash</a></li>
+                  <li><a href="/tag/game.html">game</a></li>
+                  <li><a href="/tag/games.html">games</a></li>
+                  <li><a href="/tag/git.html">git</a></li>
+                  <li><a href="/tag/html5.html">html5</a></li>
+                  <li><a href="/tag/svg.html">svg</a></li>
+                  <li><a href="/tag/tips.html">tips</a></li>
+                  <li><a href="/tag/try.html">try</a></li>
+                  <li><a href="/tag/WebRTC.html">WebRTC</a></li>
+                </ul>
+              </li>
+              <li><a href="/archive.html">Archives</a></li>
+            </ul>
+            <form id="search-form" action="http://www.google.com/search" method="get" class="navbar-form pull-right"><span class="glass js-search-action"><i></i></span>
+              <input type="hidden" value="UTF-8" name="ie">
+              <input type="hidden" value="UTF-8" name="oe">
+              <input type="hidden" value="citizen55.github.io" name="domains">
+              <input type="hidden" value="citizen55.github.io" name="sitesearch">
+              <input name="q" type="text" placeholder="Search using Google..." class="search-query span2">
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9 col-sm-9">
+          <article class="post shadow">
+            <div>
+              <h1>Веб диктофон</h1>
+              <footer class="footer">
+                <div style="font-size: 13px" class="inner">Posted by&nbsp;<span class="author"><a href="mailto:kovtunovsa@gmail.com">Sergey</a></span>&nbsp;
+                  | on&nbsp;<a href="/archive.html" class="back">October 03, 2018&nbsp;</a>| Tags :&nbsp;<a href="/tag/eductional.html" rel="category tag" title="View all posts in 'eductional'">eductional</a>&nbsp;<a href="/tag/html5.html" rel="category tag" title="View all posts in 'html5'">html5</a>&nbsp;<a href="/tag/WebRTC.html" rel="category tag" title="View all posts in 'WebRTC'">WebRTC</a>&nbsp;
+                </div>
+              </footer>
+            </div>
+            <hr>
+            <section class="content"><p>Самый быстрый путь записать звук с микрофона в браузере, это использование медиарекодера. MediaRecorder это интерфейс MediaRecorder API, основанной на технологиях WebRTC. С его помощью можно записывать аудио и видео данные. MediaRecorder реализован на сегодняшний момент в основных браузерах.
+<span class="more"></span></p>
+<p>Он позволяет получать данные или их фрагменты из медиа-потока в виде Blob. Dпоследствии они могут быть объединены и сохранены в виде одного файла. Сейчас реализован захват медиа потока с:</p>
+<p>мультимедийных устройств, таких как камера, микрофон;
+ и медиа элементов - canvas, audio, video.</p>
+<p>Но в данном случае, нас интересует получение медиа потока с микрофона.
+Для простейшей реализации диктофона, достаточно методов stop() и start() и пару обработчиков событий ondataavailable, onstop.</p>
+<p>С помощью <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia">navigator.mediaDevices.getUserMedia()</a>, который принимает аргументом <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamConstraints">ограничение</a>, например такой объект:</p>
+<pre><code class="lang-js">{
+    <span class="attr">audio</span>: <span class="literal">true</span>, 
+    <span class="attr">video</span>: { <span class="attr">width</span>: <span class="number">1280</span>, <span class="attr">height</span>: <span class="number">720</span>}
+}
+</code></pre>
+<p>и возвращает промис (обещание), который в случае успеха передаст <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaStream">MediaStream</a><br>Сейчас мы получим только аудиопоток.: {audio: true}</p>
+<pre><code class="lang-js">    navigator.mediaDevices.getUserMedia({<span class="attr">audio</span>: <span class="literal">true</span>}).then(<span class="function">(<span class="params">stream</span>) =&gt;</span> {
+    },(err) =&gt; {
+        <span class="built_in">console</span>.log(<span class="string">'The error occured: '</span> + err);
+    }
+);
+</code></pre>
+<p>После получения медиа потока, создадим объект MediaRecorder и назначим ему обработчики с нашей логикой. Как уже было сказано выше, для простейшей реализации достаточно обработать события onstop и  ondataavailable, что мы и сделаем.
+В обработчике ondataavailable к массиву audioData будут добавляться новые порции аудио данных.</p>
+<pre><code class="lang-js">    mediaRecorder.ondataavailable = <span class="function">(<span class="params">e</span>) =&gt;</span> {
+       audioData.push(e.data);
+    }
+</code></pre>
+<p>В обработчике onstop будет создаваться объект Blob из массива  audioData, получение его URL и назначение его атрибуту src элемента audio.</p>
+<pre><code class="lang-js">    mediaRecorder.onstop = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>{
+        <span class="keyword">let</span> audio = <span class="built_in">document</span>.getElementById(<span class="string">'#audio'</span>);
+        audio.setAttribute(<span class="string">'controls'</span>, <span class="string">''</span>);
+        audio.controls = <span class="literal">true</span>;
+
+        <span class="keyword">let</span> blob = <span class="keyword">new</span> Blob(audioData, {<span class="string">'type'</span> : <span class="string">'audio/webm;codecs=opus'</span>});
+        <span class="keyword">let</span> audioUrl = <span class="built_in">window</span>.URL.createObjectURL(blob);
+        audio.src = audioUrl;
+    }
+</code></pre>
+<p>Затем создадим элементы управления и все диктофон готов к работе, теперь мы можем прослушать запись полученную с микрофона или загрузить ее. 
+MediaRecorder поддерживает следующие <a href="https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/isTypeSupported">форматы</a>:</p>
+<pre><code>    &quot;video/webm&quot;, 
+    &quot;audio/webm&quot;, 
+    &quot;video/webm\;codecs=vp8&quot;, 
+    &quot;video/webm\;codecs=daala&quot;, 
+    &quot;video/webm\;codecs=h264&quot;, 
+    &quot;audio/webm\;codecs=opus&quot;, 
+    &quot;video/mpeg&quot;
+</code></pre><p>Выбор не очень большой, и поэтому в следующий раз сделаем диктофон записывающий файл в самом популярном (пока еще) формате mp3.</p>
+<hr>
+<p><strong> Полный код примера </strong></p>
+<hr>
+ <iframe height='512' scrolling='no' title='webdictaphone' src='//codepen.io/citizen55/embed/oaLEQM/?height=265&theme-id=0&default-tab=js,result&embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'>See the Pen <a href='https://codepen.io/citizen55/pen/oaLEQM/'>webdictaphone</a> by citizen55 (<a href='https://codepen.io/citizen55'>@citizen55</a>) on <a href='https://codepen.io'>CodePen</a>.
+</iframe>
+</section>
+            <hr>
+            <!--include partials/bottom-social-->
+            <hr>
+            <h3>Похожие</h3>
+            <table class="table table-striped">
+              <tbody>
+                <tr>
+                  <td><a href="/articles/2018-10-03-Web-Recorder/" title="eductional,html5,WebRTC">Веб диктофон</a></td>
+                </tr>
+                <tr>
+                  <td><a href="/articles/2018-10-18-Vivus/" title="html5,svg">Svg анимация</a></td>
+                </tr>
+                <tr>
+                  <td><a href="/articles/2018-05-04-Hangman/" title="games,eductional,html5">Обучающая игра - Висельница</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <h4></h4>
+            <!--include partials/disqus-->
+          </article>
+        </div>
+        <div id="sidebar" class="col-lg-3 col-sm-3">
+          <div class="sidebar-header"><a href="http://www.citizen55.github.io"><img src="/assets/images/shmel.png" class="img-circle img-responsive"></a>
+            <hr>
+            <h3>
+              <p class="pull-right"><a href="https://github.com/citizen55"><img src="/assets/images/github.png"></a></p>
+              <P><a href="https://github.com/citizen55" style="color:black;">Github</a></P>
+            </h3>
+            <hr>
+          </div>
+          <div class="sidebar">
+            <ol>
+              <li><a href="/articles/2018-10-03-Web-Recorder/">Веб диктофон</a><br></li>
+              <li><a href="/articles/2018-10-18-Vivus/">Svg анимация</a><br></li>
+              <li><a href="/articles/2017-11-15-Finite-State-Machine/">Make fast FSM</a><br></li>
+              <li><a href="/articles/2018-05-04-Hangman/">Обучающая игра - Висельница</a><br></li>
+              <li><a href="/articles/2017-04-02-Git-Tips-Brief/">Подсказки по Гиту</a><br></li>
+              <li><a href="/articles/2014-08-25-Cubiks-Balls-Flash/">Кубики-шарики</a><br></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <footer class="footer">
+        <div style="font-size: 13px" class="inner">
+        </div>
+      </footer>
+    </div>
+    <script src="/assets/javascript/jquery.min.js"></script>
+    <script src="/assets/javascript/app.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <!--script(src='http://platform.linkedin.com/in.js')-->
+  </body>
+</html>

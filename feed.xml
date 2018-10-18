@@ -5,9 +5,81 @@
     <atom:link href="https://citizen55.github.io/feed.xml" rel="self" type="application/rss+xml"></atom:link>
     <link>https://citizen55.github.io</link>
     <description>Might come in handy</description>
-    <pubDate>Wed, 15 Nov 2017 15:00:00 +0600</pubDate>
+    <pubDate>Wed, 03 Oct 2018 09:00:00 +0600</pubDate>
     <generator>Wintersmith - https://github.com/jnordberg/wintersmith</generator>
     <language>en</language>
+    <item>
+      <title>Веб диктофон</title>
+      <link>https://citizen55.github.io/articles/2018-10-03-Web-Recorder/</link>
+      <pubDate>Wed, 03 Oct 2018 09:00:00 +0600</pubDate>
+      <guid isPermaLink="true">https://citizen55.github.io/articles/2018-10-03-Web-Recorder/</guid>
+      <author></author>
+      <description>&lt;p&gt;Самый быстрый путь записать звук с микрофона в браузере, это использование медиарекодера. MediaRecorder это интерфейс MediaRecorder API, основанной на технологиях WebRTC. С его помощью можно записывать аудио и видео данные. MediaRecorder реализован на сегодняшний момент в основных браузерах.
+&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Он позволяет получать данные или их фрагменты из медиа-потока в виде Blob. Dпоследствии они могут быть объединены и сохранены в виде одного файла. Сейчас реализован захват медиа потока с:&lt;/p&gt;
+&lt;p&gt;мультимедийных устройств, таких как камера, микрофон;
+ и медиа элементов - canvas, audio, video.&lt;/p&gt;
+&lt;p&gt;Но в данном случае, нас интересует получение медиа потока с микрофона.
+Для простейшей реализации диктофона, достаточно методов stop() и start() и пару обработчиков событий ondataavailable, onstop.&lt;/p&gt;
+&lt;p&gt;С помощью &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia&quot;&gt;navigator.mediaDevices.getUserMedia()&lt;/a&gt;, который принимает аргументом &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamConstraints&quot;&gt;ограничение&lt;/a&gt;, например такой объект:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-js&quot;&gt;{
+    &lt;span class=&quot;attr&quot;&gt;audio&lt;/span&gt;: &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;, 
+    &lt;span class=&quot;attr&quot;&gt;video&lt;/span&gt;: { &lt;span class=&quot;attr&quot;&gt;width&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;1280&lt;/span&gt;, &lt;span class=&quot;attr&quot;&gt;height&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;720&lt;/span&gt;}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;и возвращает промис (обещание), который в случае успеха передаст &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MediaStream&quot;&gt;MediaStream&lt;/a&gt;&lt;br&gt;Сейчас мы получим только аудиопоток.: {audio: true}&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-js&quot;&gt;    navigator.mediaDevices.getUserMedia({&lt;span class=&quot;attr&quot;&gt;audio&lt;/span&gt;: &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;}).then(&lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;stream&lt;/span&gt;) =&amp;gt;&lt;/span&gt; {
+    },(err) =&amp;gt; {
+        &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;'The error occured: '&lt;/span&gt; + err);
+    }
+);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;После получения медиа потока, создадим объект MediaRecorder и назначим ему обработчики с нашей логикой. Как уже было сказано выше, для простейшей реализации достаточно обработать события onstop и  ondataavailable, что мы и сделаем.
+В обработчике ondataavailable к массиву audioData будут добавляться новые порции аудио данных.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-js&quot;&gt;    mediaRecorder.ondataavailable = &lt;span class=&quot;function&quot;&gt;(&lt;span class=&quot;params&quot;&gt;e&lt;/span&gt;) =&amp;gt;&lt;/span&gt; {
+       audioData.push(e.data);
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;В обработчике onstop будет создаваться объект Blob из массива  audioData, получение его URL и назначение его атрибуту src элемента audio.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;lang-js&quot;&gt;    mediaRecorder.onstop = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt; (&lt;span class=&quot;params&quot;&gt;&lt;/span&gt;)&lt;/span&gt;{
+        &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; audio = &lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.getElementById(&lt;span class=&quot;string&quot;&gt;'#audio'&lt;/span&gt;);
+        audio.setAttribute(&lt;span class=&quot;string&quot;&gt;'controls'&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;''&lt;/span&gt;);
+        audio.controls = &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;;
+
+        &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; blob = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Blob(audioData, {&lt;span class=&quot;string&quot;&gt;'type'&lt;/span&gt; : &lt;span class=&quot;string&quot;&gt;'audio/webm;codecs=opus'&lt;/span&gt;});
+        &lt;span class=&quot;keyword&quot;&gt;let&lt;/span&gt; audioUrl = &lt;span class=&quot;built_in&quot;&gt;window&lt;/span&gt;.URL.createObjectURL(blob);
+        audio.src = audioUrl;
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Затем создадим элементы управления и все диктофон готов к работе, теперь мы можем прослушать запись полученную с микрофона или загрузить ее. 
+MediaRecorder поддерживает следующие &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MediaRecorder/isTypeSupported&quot;&gt;форматы&lt;/a&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;    &amp;quot;video/webm&amp;quot;, 
+    &amp;quot;audio/webm&amp;quot;, 
+    &amp;quot;video/webm\;codecs=vp8&amp;quot;, 
+    &amp;quot;video/webm\;codecs=daala&amp;quot;, 
+    &amp;quot;video/webm\;codecs=h264&amp;quot;, 
+    &amp;quot;audio/webm\;codecs=opus&amp;quot;, 
+    &amp;quot;video/mpeg&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Выбор не очень большой, и поэтому в следующий раз сделаем диктофон записывающий файл в самом популярном (пока еще) формате mp3.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt; Полный код примера &lt;/strong&gt;&lt;/p&gt;
+&lt;hr&gt;
+ &lt;iframe height='512' scrolling='no' title='webdictaphone' src='//codepen.io/citizen55/embed/oaLEQM/?height=265&amp;theme-id=0&amp;default-tab=js,result&amp;embed-version=2' frameborder='no' allowtransparency='true' allowfullscreen='true' style='width: 100%;'&gt;See the Pen &lt;a href='https://codepen.io/citizen55/pen/oaLEQM/'&gt;webdictaphone&lt;/a&gt; by citizen55 (&lt;a href='https://codepen.io/citizen55'&gt;@citizen55&lt;/a&gt;) on &lt;a href='https://codepen.io'&gt;CodePen&lt;/a&gt;.
+&lt;/iframe&gt;
+</description>
+    </item>
+    <item>
+      <title>Svg анимация</title>
+      <link>https://citizen55.github.io/articles/2018-10-18-Vivus/</link>
+      <pubDate>Wed, 03 Oct 2018 09:00:00 +0600</pubDate>
+      <guid isPermaLink="true">https://citizen55.github.io/articles/2018-10-18-Vivus/</guid>
+      <author></author>
+      <description>&lt;p&gt;С помощью технологии SVG можно легко создовать забавные эффекты. Ниже можно посмотреть эффект рисования невидимым карандашом. Это делается с памощью манипуляций с аттрибутами stroke-dashoffset, stroke-dasharray.
+Помогает в этом библиотека &lt;a href=&quot;https://github.com/maxwellito/vivus#timing-function&quot;&gt;Vivus&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Это библиотека JavaScript, которая позволяет нам анимировать элементы SVG, в нейесть достаточное количество настроек для создания эффектов. В гитхаб, на ее странице, размещена подробная документация. Я же приведу несколько примеров использования.&lt;/p&gt;
+</description>
+    </item>
     <item>
       <title>Make fast FSM</title>
       <link>https://citizen55.github.io/articles/2017-11-15-Finite-State-Machine/</link>
@@ -17,6 +89,16 @@
       <description>&lt;p&gt;Попытка создания быстрого конечного автомата на ява скрипте с использованием побитовых операторов&lt;/p&gt;
 &lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
 </description>
+    </item>
+    <item>
+      <title>Обучающая игра - Висельница</title>
+      <link>https://citizen55.github.io/articles/2018-05-04-Hangman/</link>
+      <pubDate>Sun, 02 Apr 2017 09:00:00 +0600</pubDate>
+      <guid isPermaLink="true">https://citizen55.github.io/articles/2018-05-04-Hangman/</guid>
+      <author></author>
+      <description>&lt;p&gt;Тренажер для обчения словам, слова хранятся в текстовом файле. В другом текстовом файле, по желанию, можно хранить любое количество фраз появляющиеся в случае успеха или неудачи. Фразы появляются в случайном порядке.&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;more&quot;&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;iframe src=&quot;http://citizen55.github.io/res/hangman/index.html&quot; frameborder=&quot;0&quot; width=&quot;100%&quot; height=&quot;600&quot;&gt;&lt;/iframe&gt;</description>
     </item>
     <item>
       <title>Подсказки по Гиту</title>

@@ -2,19 +2,37 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://citizen55.github.io</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/archive.html</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://citizen55.github.io/articles/2018-10-03-Web-Recorder/</loc>
+    <lastmod>2018-10-03T03:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/articles/2018-10-18-Vivus/</loc>
+    <lastmod>2018-10-03T03:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://citizen55.github.io/articles/2017-11-15-Finite-State-Machine/</loc>
     <lastmod>2017-11-15T09:00:00.000Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/articles/2018-05-04-Hangman/</loc>
+    <lastmod>2017-04-02T03:00:00.000Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
@@ -31,68 +49,110 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://citizen55.github.io/tag/eductional</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/tag/html5</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/tag/WebRTC</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://citizen55.github.io/tag/games</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/tag/flash</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/tag/game</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/tag/try</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/tag/svg</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/tag/tips</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/tag/git</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/category/eductional</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/category/game</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/category/algorithms</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/category/dev</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/category/git</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://citizen55.github.io/archive/2018</loc>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/archive/2014</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://citizen55.github.io/archive/2017</loc>
-    <lastmod>2018-10-02T09:46:10.828Z</lastmod>
+    <lastmod>2018-10-18T08:50:58.633Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
