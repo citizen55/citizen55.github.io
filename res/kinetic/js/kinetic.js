@@ -18,12 +18,12 @@ function ready(){
     
         preload: function ()
         {
-            this.load.image('grid', '../img/grid_4096.png');
-            this.load.image('crate', '../img/crate.png');
+            this.load.image('grid', 'img/grid_4096.png');
+            this.load.image('crate', 'img/crate.png');
 
             this.load.scenePlugin({
                 key: 'KineticScrolling',
-                url: 'KineticScrolling.js',
+                url: 'js/KineticScrolling.js',
                 sceneKey: 'kinetic'
             });
         },
