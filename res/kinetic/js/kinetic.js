@@ -20,16 +20,10 @@ function ready(){
         {
             this.load.image('grid', '../img/grid_4096.png');
             this.load.image('crate', '../img/crate.png');
-            // this.load.plugin(
-            //     'KineticScrolling', 
-            //     '../KineticScrolling.js', 
-            //     'kineticPlugin', 
-            //     'kinetic'
-            // );
 
             this.load.scenePlugin({
                 key: 'KineticScrolling',
-                url: '../KineticScrolling.js',
+                url: 'KineticScrolling.js',
                 sceneKey: 'kinetic'
             });
         },
