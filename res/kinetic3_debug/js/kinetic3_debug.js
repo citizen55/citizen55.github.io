@@ -21,9 +21,9 @@ function ready(){
     
         preload: function ()
         {
-            this.load.image('grid', '../img/grid_4096.png');
-            this.load.image('crate', '../img/crate.png');
-            this.load.image('sky', '../img/sky4.png');
+            this.load.image('grid', 'img/grid_4096.png');
+            this.load.image('crate', 'img/crate.png');
+            this.load.image('sky', 'img/sky4.png');
 
             this.load.scenePlugin({
                 key: 'KineticScrolling',
@@ -93,8 +93,8 @@ function ready(){
     
         preload: function ()
         {
-            this.load.image('crate', '../img/crate.png');
-            this.load.image('grid', '../img/grid_4096.png');
+            this.load.image('crate', 'img/crate.png');
+            this.load.image('grid', 'img/grid_4096.png');
         },
     
         create: function ()
