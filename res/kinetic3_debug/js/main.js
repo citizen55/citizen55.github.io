@@ -34,8 +34,8 @@ class KineticScrolling extends Phaser.Plugins.ScenePlugin{
         this.velocityWheelY = 0;
 
         // if less than the two values is a Tap
-        this.thresholdOfTapTime = 150;
-        this.thresholdOfTapDistance = 40; // 10
+        this.thresholdOfTapTime = 150; //100
+        this.thresholdOfTapDistance = 20; // 10
 
         // for a smoother scrolling start
         this.thresholdReached = false;
@@ -109,10 +109,10 @@ class KineticScrolling extends Phaser.Plugins.ScenePlugin{
         //this.scene.input.on('pointermove', this.moveCamera, this);
 
         this.pointerId = pointer.id;
-        this.startX = this.game.input.x;
-        this.startY = this.game.input.y;
-        this.screenX = pointer.screenX;
-        this.screenY = pointer.screenY;
+
+        this.startX = pointer.x; // pointer.downX
+        this.startY = pointer.y; // pointer.downY
+
         this.pressedDown = true;
         this.thresholdReached = false;
         this.timestamp = Date.now();
@@ -128,9 +128,9 @@ class KineticScrolling extends Phaser.Plugins.ScenePlugin{
     }
 
     moveCamera(pointer) {
-
+        var p = pointer;
         clearTimeout(this.clearMovementTimer);
-        this.scene.debugText('kinetic move()  pointer.id: ' + pointer.id);
+        this.scene.debugText('kinetic move()  pointer.id: ' + p.id + ' ptr.x: ' + p.x + ' ptr.y: ' + p.y );
 
         if(!pointer.camera || pointer.camera.id != this.camera.id){
             this.endMove(pointer);
@@ -154,23 +154,32 @@ class KineticScrolling extends Phaser.Plugins.ScenePlugin{
         var deltaY = 0;
 
         // It`s a fast tap not move
-        if ( this.isTap()
-            && Math.abs(pointer.screenY - this.screenY) < this.thresholdOfTapDistance
-            && Math.abs(pointer.screenX - this.screenX) < this.thresholdOfTapDistance
+        // рассмотреть что здесь происходит
+        // не прошло 100мс и не произошел сдвиг указателя - идем дальше
+        //debugger;
+        this.scene.debugText('kinetic move()  isTap: ' + this.isTap() + ' ' +  (x - pointer.prevPosition.x) + ' ' +  (x - pointer.prevPosition.x));
+        // debugger;
+
+        if ( this.isTap()  // return (this.now - this.beginTime) < this.thresholdOfTapTime;
+            && Math.abs(x - pointer.prevPosition.x) < this.thresholdOfTapDistance
+            && Math.abs(y - pointer.prevPosition.y) < this.thresholdOfTapDistance
         ) {
             return;
         }
+        //////////////////////////////
 
         if (!this.thresholdReached) {
             this.thresholdReached = true;
+            // ????? фактически устанавливается первый раз
             this.startX = x;
             this.startY = y;
+
             if(this.kineticDown){
                 this.scene.input.emit('kineticUp');
                 this.scene.debugText('kinetic: kineticUp !this.thresholdReached');
             }else{
                 clearTimeout(this.timerDown);
-                this.kineticDown = false;
+                this.kineticDown = false; //он и так false
             }
             this.scene.debugText('kinetic: kineticOff !this.thresholdReached');
             this.scene.input.emit('kineticOff');
@@ -215,7 +224,7 @@ class KineticScrolling extends Phaser.Plugins.ScenePlugin{
         this.clearMovementTimer = setTimeout(function () {
             this.velocityX = 0;
             this.velocityY = 0;
-        }.bind(this), 20);
+        }.bind(this), 20); // применить 25мс ?
     }
 
     /**
