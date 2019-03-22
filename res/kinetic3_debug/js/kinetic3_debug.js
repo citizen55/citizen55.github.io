@@ -174,6 +174,13 @@ function ready(){
                 box.onKineticClick = function(){
                     console.log('click ' + this.name);
                     _this.debugText('box: kineticClick name: ' + this.name);
+                    this.scene.tweens.add({
+                        targets: this,
+                        y: '-=10',
+                        duration: 100,
+                        ease: 'Linear',
+                        yoyo: true
+                    });
                 }
 
                 this.kinetic.addInteractive(box);
