@@ -178,14 +178,14 @@ function ready(){
 
                 this.kinetic.addInteractive(box);
                 
-                this.input.setDraggable(box);
+               // this.input.setDraggable(box);
 
-                this.input.once('dragstart', this.drag, this);
+                //this.input.once('dragstart', this.drag, this);
 
             }
 
-            this.input.dragTimeThreshold = 1500;
-            this.input.dragDistanceThreshold = 24;
+            //this.input.dragTimeThreshold = 1500;
+            //this.input.dragDistanceThreshold = 24;
 
             this.input.on('pointerdown', function(pointer){
                 _this.debugText('In scene ' + _this.scene.key + ' ptr.x: ' + pointer.x + ' ptr.y: ' + pointer.y);
