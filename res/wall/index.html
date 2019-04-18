@@ -5,6 +5,7 @@
 	<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
     <title></title>
     <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/range-slider.css">
 	<style type="text/css">
 		body {
 			margin: 0;
@@ -36,59 +37,38 @@
     <div id="container"></div>
 
     <div id="box" class="">
-        <div id="title">CREATE WALL</div>
+        <div id="title">СОЗДАТЬ СТЕНУ</div>
         <div id="inputs">
-        <div class="halfcell dimension">BOARD WIDTH</div>
-        <div id="board_width" class="measurement halfcell">
-            <div id="input_container">
-                <select data-placeholder="undefined">
-                    <option value="6">6</option>
-                    <option value="8">8</option>
-                </select>
+            <div class="halfcell dimension">Ширина доски, см</div>
+            <div id="board_width" class="measurement cell">
+                <input id="input-board-width" type="range" min="8" max="16" value="10" data-rangeSlider>
             </div>
-            <div id="ft">in</div>
-        </div>
             <div ><br></div>
-            <div  class="halfcell dimension">BOARD LENGTH</div>
-            <div id="board_length" class="measurement halfcell">
-                <div id="input_container">
-                <select data-placeholder="undefined" tabindex="">
-                    <option value="4">4</option>
-                    <option value="8">8</option>
-                    <option value="12">12</option>
+            <div  class="halfcell dimension">Длина доски, м</div>
+            <div id="board_length" class="measurement cell">
+                <input id="input-board-length" type="range" min="0.6" max="3" step="0.1" data-rangeSlider>
+            </div>
+            <div><br></div>
+            <div class="halfcell dimension">Длина стены, м</div>
+            <div id="wall-length" class="measurement cell">
+                <input id="input-wall-length" type="range" min="1" max="10" step="0.2" data-rangeSlider>
+            </div>
+            <div><br></div>
+            <div id="" class="halfcell dimension">Высота стены, м</div>
+            <div id="wall-height" class="measurement cell">
+                <input id="input-wall-height" type="range" min="1" max="5" step="0.1" data-rangeSlider>
+            </div>
+            <div><br></div>
+            <div class="halfcell dimension">Узор</div>
+            <div id="board_pattern" class="cell">
+                <select id="pattern" class="width_eighty" data-placeholder="undefined">
+                    <option value="horizontal">Горизотнальный</option>
+                    <option value="vertical">Вертикальный</option>
+                    <option value="herringbone">Елочка</option>
                 </select>
             </div>
-            <div id="ft">ft</div>
-        </div>
-        <div><br></div>
-        <div class="halfcell dimension">WALL WIDTH</div>
-        <div id="width" class="measurement halfcell">
-            <div id="input_container">
-                <input spellcheck="true" type="text" autocapitalize="none" autocomplete="on" class="GCNInput" value="10">
-            </div>
-                <div id="ft">ft</div>
-            </div>
-                <div><br></div>
-                <div id="" class="halfcell dimension">WALL HEIGHT</div>
-                <div id="height" class="measurement halfcell">
-                    <div id="input_container" >
-                        <input spellcheck="true" type="text" autocapitalize="none" autocomplete="on" class="GCNInput" value="10">
-                    </div>
-                <div id="ft">ft</div>
-            </div>
             <div><br></div>
-                <div class="halfcell dimension">BOARD PATTERN</div>
-                <div id="board_pattern" class="measurement halfcell">
-                    <div id="input_container">
-                        <select class="width_eighty" data-placeholder="undefined">
-                            <option value="horizontal">horitzontal</option>
-                            <option value="vertical">vertical</option>
-                            <option value="herringbone">herringbone</option>
-                        </select>
-                    </div>
-                </div>
-            <div><br></div>
-            <div id="create">CREATE</div>
+            <div id="create">СОЗДАТЬ</div>
         </div>
     </div>
 	<!-- <script src="assets/js/phaser.js"></script> -->
@@ -129,63 +109,3 @@
     <script src="dist/bundle.js"></script>
 </body>
 </html>
-
-<!-- <div id="screen_container" style="height: 935px;">
-        <div id="wall_size_panel" class="centered_panel noselect" data-flip-title="" data="" style="transform: matrix(1, 0, 0, 1, 0, 0);" name="">
-            <div id="box" class="center_xy" data-flip-title="" data="" style="" name="">
-                <div id="title" class="" data-flip-title="" data="" style="" name="">CREATE WALL</div>
-                <div id="inputs" class="" data-flip-title="" data="" style="" name="">
-                    <div id="" class="halfcell dimension" data-flip-title="" data="" style="" name="">BOARD WIDTH</div>
-                    <div id="board_width" class="measurement halfcell" data-flip-title="" data="" style="" name="">
-                        <div id="input_container" class="" data-flip-title="" data="" style="" name="">
-                            <select id="" class="" width="" name="" data-placeholder="undefined" tabindex="">
-                                <option value="6">6</option><option value="8">8</option>
-                            </select>
-                        </div>
-                        <div id="ft" class="" data-flip-title="" data="" style="" name="">in</div>
-                    </div>
-                    <div id="" class="" data-flip-title="" data="" style="" name=""><br></div>
-                    <div id="" class="halfcell dimension" data-flip-title="" data="" style="" name="">BOARD LENGTH</div>
-                    <div id="board_length" class="measurement halfcell" data-flip-title="" data="" style="" name="">
-                        <div id="input_container" class="" data-flip-title="" data="" style="" name="">
-                            <select id="" class="" width="" name="" data-placeholder="undefined" tabindex="">
-                                <option value="4">4</option>
-                                <option value="8">8</option>
-                                <option value="12">12</option>
-                            </select>
-                        </div>
-                        <div id="ft" class="" data-flip-title="" data="" style="" name="">ft</div>
-                    </div>
-                    <div id="" class="" data-flip-title="" data="" style="" name=""><br></div>
-                    <div id="" class="halfcell dimension" data-flip-title="" data="" style="" name="">WALL WIDTH</div>
-                    <div id="width" class="measurement halfcell" data-flip-title="" data="" style="" name="">
-                        <div id="input_container" class="" data-flip-title="" data="" style="" name="">
-                            <input spellcheck="true" size="" data="" placeholder="" type="text" name="" autocapitalize="none" autocomplete="on" id="" class="GCNInput" value="10" tabindex="" min="" inputmode="" pattern="">
-                        </div>
-                        <div id="ft" class="" data-flip-title="" data="" style="" name="">ft</div>
-                    </div>
-                    <div id="" class="" data-flip-title="" data="" style="" name=""><br></div>
-                    <div id="" class="halfcell dimension" data-flip-title="" data="" style="" name="">WALL HEIGHT</div>
-                    <div id="height" class="measurement halfcell" data-flip-title="" data="" style="" name="">
-                        <div id="input_container" class="" data-flip-title="" data="" style="" name="">
-                            <input spellcheck="true" size="" data="" placeholder="" type="text" name="" autocapitalize="none" autocomplete="on" id="" class="GCNInput" value="10" tabindex="" min="" inputmode="" pattern="">
-                        </div>
-                        <div id="ft" class="" data-flip-title="" data="" style="" name="">ft</div>
-                    </div>
-                    <div id="" class="" data-flip-title="" data="" style="" name=""><br></div>
-                    <div id="" class="halfcell dimension" data-flip-title="" data="" style="" name="">BOARD PATTERN</div>
-                    <div id="board_pattern" class="measurement halfcell" data-flip-title="" data="" style="" name="">
-                        <div id="input_container" class="" data-flip-title="" data="" style="" name="">
-                            <select id="" class="width_eighty" width="" name="" data-placeholder="undefined" tabindex="">
-                                <option value="horizontal">horitzontal</option>
-                                <option value="vertical">vertical</option>
-                                <option value="herringbone">herringbone</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div id="" class="" data-flip-title="" data="" style="" name=""><br></div>
-                    <div id="create" class="" data-flip-title="" data="" style="" name="">CREATE</div>
-                </div>
-            </div>
-        </div>
-    </div> -->
