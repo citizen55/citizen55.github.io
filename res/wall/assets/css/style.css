@@ -237,7 +237,7 @@
       }
 
       .width_eighty {
-        width: 80% !important;
+        width: 90% !important;
       }
 
       
@@ -277,6 +277,7 @@
     border: 2px solid white;
     margin: auto;
     text-align: center;
+    opacity: 0;
 }
 
 #title{
@@ -287,18 +288,27 @@
 }
 
 
+
+
 #box .halfcell{
   display: inline-block;
-  width:140px;
+  /* width: 0px; */
+}
+
+
+#box .cell{
+    display: block;
+    width: 260px;
 }
 
 #box .measurement{
-  position: relative;
-
-  border-radius: 8px;
-  overflow: hidden;
-  border: 1px solid white;
+    position: relative;
+    text-align: justify;
+    border-radius: 8px;
+  /* overflow: hidden; */
+    border: 1px solid white;
     vertical-align: middle;
+    margin-top: 16px;
 }
 
 #box .dimension{
@@ -309,7 +319,7 @@
 }
 
 #box #inputs{
-    padding: 12px;
+    padding: 12px 24px;
 }
 #box #x{
     color: white;
@@ -320,7 +330,7 @@
     transform: scaleX(1.3);
     font-size: 14px;
 }
-#box input{
+/* #box input{
   width: 68px;
   margin-right: 31px;
   background: transparent;
@@ -328,17 +338,30 @@
   text-align: center;
   border: 0px;
   padding: 5px;
+} */
+
+#board_pattern{
+    background-color: white;
+    margin-top: 8px;
+    position: relative;
+    text-align: justify;
+    border-radius: 8px;
+  /* overflow: hidden; */
+    border: 1px solid white;
+    vertical-align: middle;
 }
 
 #box select{
-  width: 58px;
-    margin-right: 31px;
+    /* width: 58px; */
+    /* margin-right: 31px; */
     background: transparent;
-    color: white;
+    color: #363636;
     text-align: right;
     border: 0px;
-    margin: 3px 0px;
+    margin: 4px;
     vertical-align: middle;
+    outline:none;
+    font-size: 1rem;
 }
 
 
@@ -360,24 +383,24 @@
     border-radius: 7px;
     cursor: pointer;
     transition: all 0.22s ease;
+    margin-top: 24px;
 }
 
-/* #box #create:hover{
+#box #create:hover{
     transform:scale(1.08);
-} */
+}
 
-/* #wall_build_panel{margin-top:20px;}
-#wall_build_panel #wall_container{border:1px solid white; position: relative;overflow: hidden;}
+/* range slider ***************************************/
 
-#wall_build_panel .board_container{border:1px solid white;position: absolute;background-size:cover;background-position:center;}
-#wall_build_panel .board_container.filled{border:none;}
-
-#wall_build_panel .board_container.vertical{
-  /* Safari */
-  /* transform-origin: bottom left; */
-/* }
-#wall_build_panel .board_container.herringbone{ */
-  /* Safari */
-  /* transform-origin: top left;
-}  */
-
+.tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-55%);
+    /* border: 1px solid #707070;
+    border-radius: 3px;
+    background-color: #e4e4e4; */
+    padding: 4px;
+    display: block;
+    color: #363636;
+    font-size: 1.2rem;
+}
