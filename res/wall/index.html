@@ -17,95 +17,65 @@
 			padding: 5px;
 			right: 10px;
 			bottom: 10px;
-		}
-
-        /* @font-face {
-        font-family: "HelveticaCyr";
-        src: url('assets/font/');
-        font-weight:300;
-        font-weight:normal; }*/
+        }
     </style>
 </head>
 <body>
-        <div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div>
-    <!-- <div id="top">
-        <img id="logo" src="assets/img/logo.png" style="transform: matrix(1, 0, 0, 1, 0, 0);">
-        <div id="separator" style="opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);"></div>
-        <div id="title"><div id="accent_wall" style="display: inline-block; font-weight: 500; font-style: italic; opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">ACCENT WALL</div><div id="builder" style="font-weight: 300; font-style: italic; opacity: 1; transform: matrix(1, 0, 0, 1, 0, 0);">BUILDER</div></div>
-        <div id="print"><img src="assets/img/print.png"></div>
-    </div> -->
-    <div id="container"></div>
-
-    <div id="box" class="">
-        <div id="title">СОЗДАТЬ СТЕНУ</div>
-        <div id="inputs">
-            <div class="halfcell dimension">Ширина доски, см</div>
-            <div id="board_width" class="measurement cell">
-                <input id="input-board-width" type="range" min="8" max="16" value="10" data-rangeSlider>
+    <div style="font-family:font1; position:absolute; left:-1000px; visibility:hidden;">.</div>
+    <div id="container">
+        <!-- <canvas id="builder"></canvas> -->
+        <div id="box" class="">
+            <div id="title">СОЗДАТЬ СТЕНУ</div>
+            <div id="inputs">
+                <div class="halfcell dimension">Ширина доски, мм</div>
+                <div id="board_width" class="measurement cell">
+                    <input id="input-board-width" type="range" min="90" max="100" value="100" step="10" data-rangeSlider>
+                </div>
+                <div ><br></div>
+                <div  class="halfcell dimension">Длина доски, мм</div>
+                <div id="board_length" class="measurement cell">
+                    <input id="input-board-length" type="range" min="300" max="1000" step="100" data-rangeSlider>
+                </div>
+                <div><br></div>
+                <div class="halfcell dimension">Длина стены, м</div>
+                <div id="wall-length" class="measurement cell">
+                    <input id="input-wall-length" type="range" min="1" max="10" step="0.2" value="3" data-rangeSlider>
+                </div>
+                <div><br></div>
+                <div id="" class="halfcell dimension">Высота стены, м</div>
+                <div id="wall-height" class="measurement cell">
+                    <input id="input-wall-height" type="range" min="1" max="5" step="0.1" value="2" data-rangeSlider>
+                </div>
+                <div><br></div>
+                <div class="halfcell dimension">Узор</div>
+                <div id="board_pattern" class="cell">
+                    <select id="pattern" class="width_eighty" data-placeholder="undefined">
+                        <option value="herringbone">Елочка</option>
+                        <option value="horizontal">Горизотнальный</option>
+                        <option value="vertical">Вертикальный</option>
+                    </select>
+                </div>
+                <div><br></div>
+                <div id="create">СОЗДАТЬ</div>
             </div>
-            <div ><br></div>
-            <div  class="halfcell dimension">Длина доски, м</div>
-            <div id="board_length" class="measurement cell">
-                <input id="input-board-length" type="range" min="0.6" max="3" step="0.1" data-rangeSlider>
-            </div>
-            <div><br></div>
-            <div class="halfcell dimension">Длина стены, м</div>
-            <div id="wall-length" class="measurement cell">
-                <input id="input-wall-length" type="range" min="1" max="10" step="0.2" data-rangeSlider>
-            </div>
-            <div><br></div>
-            <div id="" class="halfcell dimension">Высота стены, м</div>
-            <div id="wall-height" class="measurement cell">
-                <input id="input-wall-height" type="range" min="1" max="5" step="0.1" data-rangeSlider>
-            </div>
-            <div><br></div>
-            <div class="halfcell dimension">Узор</div>
-            <div id="board_pattern" class="cell">
-                <select id="pattern" class="width_eighty" data-placeholder="undefined">
-                    <option value="horizontal">Горизотнальный</option>
-                    <option value="vertical">Вертикальный</option>
-                    <option value="herringbone">Елочка</option>
-                </select>
-            </div>
-            <div><br></div>
-            <div id="create">СОЗДАТЬ</div>
         </div>
     </div>
-	<!-- <script src="assets/js/phaser.js"></script> -->
-	<script type="text/javascript">
+
+
+	<script src="assets/js/phaser.js"></script>
+    <!-- <script src="dist/bundle.js"></script> -->
+    <script src="dist/obfs.js"></script>
+    <script type="text/javascript">
 		var data = {
-			developerMode: true,
-			menu: {
-				background: 'game-start.png',
-			},
-			sound: {
-				enable: true,
-				file: 'bg-sound.mp3'
-			},
 			logo: {
 				file: 'logo.png',
 				link: 'https://yandex.ru'
-			},
-			items: 'items', 
-			promo: [
-				{
-					file: 'promo1.png',
-					link: 'https://yandex.ru' // ссылка
-				},
-				{
-					file: 'promo2.png',
-					link: 'https://yandex.ru' // ссылка
-				} 
-			],
-			banner: {
-				file: '1px.png',
-				link: '',
-				wait: 0 //в секундах
-			},
-            background: 'game-bg.png',
-            fadeDuration: 1000
+            },
+            faq: {
+                link: 'https://yandex.ru'
+            },
+            fadeDuration: 700
 		};
-    </script>
-    <script src="dist/bundle.js"></script>
+	</script>
 </body>
 </html>
